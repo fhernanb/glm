@@ -4,7 +4,6 @@
 # Los datos
 y <- c(1, 0, 1)
 x <- c(4, 3, 3)
-m <- 1
 
 # Abajo la función que contiene las ecuaciones iguales a cero
 fun <- function(b) {
@@ -13,8 +12,8 @@ fun <- function(b) {
   eta <- b0 + b1 * x
   proba <- exp(eta) / (exp(eta) + 1)
   z <- numeric(2) # contiene las ecuaciones
-  z[1] <- sum(m*(m*y-proba) * exp(eta) / (proba * (1-proba) * (exp(eta)+1)^2))
-  z[2] <- sum(m*(m*y-proba) * exp(eta) * x / (proba * (1-proba) * (exp(eta)+1)^2))
+  z[1] <- sum((y-proba) * exp(eta) / (proba * (1-proba) * (exp(eta)+1)^2))
+  z[2] <- sum((y-proba) * exp(eta) * x / (proba * (1-proba) * (exp(eta)+1)^2))
   z
 }
 
@@ -47,25 +46,37 @@ coef(mod)
 library(ggplot2)
 library(dplyr)
 
-set.seed(1)
-n <- 500
-cov <- 10
+n <- 5
+m <- 10
 x <- runif(n)
-p <- exp(-0.4 + 0.2*x) / (1+exp(-0.4 + 0.2*x))
-y <- rbinom(n, cov, p)
-m <- cov
+eta <- -0.4 + 0.2 * x
+p <- exp(eta) / (1 + exp(eta))
+y <- rbinom(n, size=m, prob=p)
+cbind(x, p, y)
+
+fun <- function(b) {
+  b0 <- b[1]
+  b1 <- b[2]
+  eta <- b0 + b1 * x
+  proba <- exp(eta) / (1 + exp(eta))
+  z <- numeric(2) # contiene las ecuaciones
+  z[1] <- sum(m * (y/m-proba) * exp(eta) / (proba * (1-proba) * (exp(eta)+1)^2))
+  z[2] <- sum(m * (y/m-proba) * exp(eta) * x / (proba * (1-proba) * (exp(eta)+1)^2))
+  z
+}
 
 # lo siguiente no me funciona
+library(nleqslv)
 nleqslv(x=c(0, 0), fn=fun, method="Broyden", control=list(btol=0.01))
 
-mod <- glm(cbind(y, cov-y) ~ x, family="binomial")
+mod <- glm(cbind(y, m-y) ~ x, family="binomial")
 coef(mod)
 
-ggplot(data.frame(x=factor(x),y=as.numeric(y)), 
-       aes(x=x, y=y/cov)) +
+ggplot(data.frame(x=x,y=as.numeric(y)), 
+       aes(x=x, y=y/m)) +
   geom_point(position=position_jitter(height=0.02, width=0.07)) +
   xlab("x") + 
-  ylab("y/cov") 
+  ylab("y/m") 
 
 
 
