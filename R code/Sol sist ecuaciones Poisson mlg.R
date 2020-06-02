@@ -17,7 +17,8 @@ fun <- function(x) {
 
 # Solucionando el sistema
 library(nleqslv)
-nleqslv(x=c(0, 0), fn=fun, control=list(btol=.01))
+nleqslv(x=c(0, 0), fn=fun, method="Newton",
+        control=list(btol=0.01))
 
 # Solucionando con glm
 mod <- glm(y ~ x, family=poisson)
