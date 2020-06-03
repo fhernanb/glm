@@ -1,5 +1,5 @@
 # En este ejemplo se solucionan las ecuaciones de verosimilitud
-# de un glm Poisson
+# y se calcula la matriz de covarianza de beta hat
 
 # Los datos
 y <- c(4, 3, 1)
@@ -19,20 +19,17 @@ fun <- function(x) {
 library(nleqslv)
 res <- nleqslv(x=c(0, 0), fn=fun, method="Newton",
                control=list(btol=0.01))
-res
+
+res$x # las estimaciones
+
+# Para encontrar la matriz de covarianzas de beta hat
+eta <- res$x[1] + res$x[2] * x
+wi <- exp(eta)
+W_hat <- diag(wi)
+X <- model.matrix(y ~ x)
+solve(t(X) %*% W_hat %*% X)
 
 # Solucionando con glm
 mod <- glm(y ~ x, family=poisson)
-coef(mod)
+vcov(mod)
 
-# Vamos a calcular el valor de L usando los betas estimados
-L <- function(w, log=TRUE) {
-  b0 <- w[1]
-  b1 <- w[2]
-  eta <- b0 + b1 * x
-  mu <- exp(eta)
-  sum(dpois(x=y, lambda=mu, log=log))
-}
-
-L(res$x)
-logLik(mod)
