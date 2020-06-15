@@ -61,4 +61,16 @@ fit.g2 <- glm(price~(size+new+baths+beds)^2, data=datos,
 
 anova(fit.g1, fit.g2)
 
-gamma.dispersion(fit.g1)
+summary(fit.g1)
+MASS::gamma.dispersion(mod) # para obtener phi
+MASS::gamma.shape(mod) # para obtener k
+
+fit.g3 <- glm(price ~ size+new+size:new, data=datos,
+              family=Gamma(link=identity))
+
+summary(fit.g3)
+MASS::gamma.dispersion(fit.g3) # para obtener phi
+MASS::gamma.shape(fit.g3) # para obtener k
+
+par(mfrow=c(2, 2))
+plot(fit.gam)
