@@ -1,4 +1,4 @@
-# Ejemplo del cap 4 del libro de Analisis de datos Categoricos
+# Ejemplo 4.3.2 del libro de Analisis de datos Categoricos
 # de Agresti
 
 Marijuana <- read.table("http://www.stat.ufl.edu/~aa/cat/data/Marijuana.dat",
