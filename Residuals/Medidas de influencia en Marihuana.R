@@ -24,14 +24,21 @@ datos <- datos %>%
 
 datos
 
-# Modelos 
-mod0 <- glm(resp ~ 1, family=binomial, data=datos)
-mod1 <- glm(resp ~ gender, family=binomial, data=datos)
-mod2 <- glm(resp ~ race, family=binomial, data=datos)
+# Modelo
 mod <- glm(resp ~ gender + race, family=binomial, data=datos)
 
-# Comparing
-anova(fit0, fit1, fit2, fit3)
+# Medidas de influencia
+dfbeta(mod)
+dfbetas(mod)
+dffits(mod)
 
+# Graficos utiles
 library(car)
-Anova(fit3)
+residualPlots(mod)
+dfbetaPlots(mod)
+dfbetasPlots(mod)
+influencePlot(mod)
+
+qqPlot(rstudent(mod))
+qqPlot(rstandard(mod))
+

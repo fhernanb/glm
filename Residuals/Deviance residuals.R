@@ -32,36 +32,56 @@ plot(x=weight, y, yaxt='n', pch=20, main='Modelo nulo')
 axis(side=2, at=0:1, labels=0:1, las=1)
 points(x=weight, y=mod_nul$fitted.values, type='l', col='blue')
 
-# Deviance residuals and Deviance ---> manually
+
+# Residuals ---------------------------------------------------------------
+
+# leer leer y leer
+help(residuals.glm)
+
+# Calculado pi_hat
 pi_hat <- predict(mod, type='response')
+pi_hat
+
+# Raw residuals ---> manually
+ei <- y - pi_hat
+ei
+
+# Raw residuals ---> automatically
+residuals(mod, type='response')
+
+# Deviance residuals and Deviance ---> manually
 ll_mod <- dbinom(x=y, size=1, prob=pi_hat, log=TRUE)
 sqrt(-2 * ll_mod) # Deviance residuals
 sum(-2 * ll_mod)  # Residual deviance
-mod$deviance
+mod$deviance # Residual deviance
 
 # Deviance residuals and Deviance ---> automatically
 residuals(mod, type='deviance')         # Deviance residuals
 sum(residuals(mod, type='deviance')^2)  # Residual deviance
-mod$deviance
+mod$deviance # Residual deviance
 
 # Pearson residuals ---> manually
-ei <- (y - pi_hat) / sqrt(pi_hat * (1-pi_hat) / 1)
-ei
+pi <- (y - pi_hat) / sqrt(pi_hat * (1-pi_hat) / 1)
+pi
+
+# Pearson residuals ---> automatically
+residuals(mod, type='pearson')
 
 # Standardized residual ---> manually
 hii <- lm.influence(mod)$hat
-ri <- ei / sqrt(1-hii)
+ri <- ei * sqrt(mod$weights) / sqrt(1-hii)
 ri
 
 # Other Residuals
-cbind(
-  deviance=residuals(mod, type='deviance'),
-  pearson=residuals(mod, type='pearson'),
-  working=residuals(mod, type='working'),
-  response=residuals(mod, type='response'),
-  weight=residuals(mod, type='partial'))
+mis_res <- cbind(deviance=residuals(mod, type='deviance'),
+                 pearson=residuals(mod, type='pearson'),
+                 working=residuals(mod, type='working'),
+                 response=residuals(mod, type='response'),
+                 weight=residuals(mod, type='partial'),
+                 stand=rstandard(mod),
+                 stude=rstudent(mod))
 
-
+round(mis_res, digits=3)
 
 
 library(car)
