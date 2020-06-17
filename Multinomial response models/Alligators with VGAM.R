@@ -34,7 +34,7 @@ w <- predict(mod, newdata=data.frame(x=3.89), type='response')
 clase <- nnet::which.is.max(w)
 levels(Gators$y)[clase]
 
-# My confusion table
+# My confusion matrix
 w <- predict(mod, type='response')
 clase <- apply(w, 1, nnet::which.is.max)
 y_hat <- levels(Gators$y)[clase]
