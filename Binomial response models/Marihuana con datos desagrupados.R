@@ -11,9 +11,9 @@ library(dplyr)
 library(tidyr)
 
 datos <- Marijuana %>% 
-  pivot_longer(cols=3:4, names_to="y", values_to = "freq") %>% 
+  pivot_longer(cols=3:4, names_to="y", values_to="freq") %>% 
   group_by_at(vars(-freq)) %>% 
-  expand(temp = 1:freq) %>% 
+  expand(temp=1:freq) %>% 
   select(-temp)
 
 datos
