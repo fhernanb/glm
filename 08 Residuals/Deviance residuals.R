@@ -83,11 +83,12 @@ mis_res <- cbind(deviance=residuals(mod, type='deviance'),
 
 round(mis_res, digits=3)
 
-
+# Algunos graficos
 library(car)
 qqPlot(rstudent(mod))
 
-# envelopes de Gilberto Alvarenga
+
+# Envelopes de Gilberto Alvarenga -----------------------------------------
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_bino")
 source("https://www.ime.usp.br/~giapaula/diag_bino")
