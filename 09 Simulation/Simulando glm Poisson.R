@@ -14,13 +14,17 @@ gen_dat <- function(n, b0, b1) {
 
 # Generando los datos
 n <- 100
-datos <- gen_dat(n=n, b0=-1, b1=1)
+datos <- gen_dat(n=n, b0=-1, b1=2)
 head(datos)
 
 # Ajustado el modelo
 mod <- glm(y ~ x, data=datos, family=poisson(link='log'))
 summary(mod)
 coef(mod)     # Los valores estimados son cercanos a los verdaderos
+
+# Envelopes
+fit.model <- mod
+source("https://www.ime.usp.br/~giapaula/envel_pois")
 
 # Reto --------------------------------------------------------------------
 
