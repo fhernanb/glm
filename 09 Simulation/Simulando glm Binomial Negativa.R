@@ -14,19 +14,30 @@ gen_dat <- function(n, b0, b1, k) {
 }
 
 # Generando los datos
-n <- 100
-datos <- gen_dat(n=n, b0=-1, b1=2, k=5)
+n <- 50
+datos <- gen_dat(n=n, b0=-1, b1=2, k=3)
 head(datos)
 
 # Ajustado el modelo
 library(MASS)
 mod <- glm.nb(y ~ x, data=datos)
 summary(mod)
-coef(mod)     # Los valores estimados son cercanos a los verdaderos
+coef(mod)     
+mod$theta  # Los valores estimados son cercanos a los verdaderos
 
 # Envelopes
 fit.model <- mod
+source("https://www.ime.usp.br/~giapaula/envel_nbin")
+
+# Ajustando un modelo Poisson
+bad <- glm(y ~ x, data=datos, family=poisson)
+summary(bad)
+coef(bad)
+fit.model <- bad
 source("https://www.ime.usp.br/~giapaula/envel_pois")
+
+# Comparando con el AIC
+AIC(mod, bad, k=2)
 
 # Reto --------------------------------------------------------------------
 
@@ -38,18 +49,18 @@ source("https://www.ime.usp.br/~giapaula/envel_pois")
 
 n <- c(5, 10, 20, 40, 80, 160, 320, 640, 1280)
 nrep <- 100
-results <- matrix(NA, ncol=2, nrow=nrep*length(n))
-colnames(results) <- c('xxx', 'b1')
+results <- matrix(NA, ncol=xxx, nrow=nrep*length(n))
+colnames(results) <- c('xxx', 'b1', xxx)
 dim(results) # para ver la dimension de la matriz donde se almacenaran
 
 for (i in n) {
   for (j in 1:nrep) {
-    xxx <- gen_dat(n=xxx, b0=-1, b1=1)
-    mod <- glm(xxx)
+    xxx <- gen_dat(n=xxx, b0=-1, b1=1, k=xxx)
+    mod <- xxx(y ~ x, data=datos)
     results[xxx] <- coef(xxx)
   }
 }
 
-# Crear un diagrama de dispersion del promedio de bi versus n.
-# Crear un diagrama de dispersion del ECM de bi versus n.
+# Crear un diagrama de dispersion del promedio de theta_i versus n.
+# Crear un diagrama de dispersion del ECM de theta_i versus n.
 
