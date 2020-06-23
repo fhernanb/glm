@@ -12,7 +12,7 @@ betas <- c(b0, b1)
 
 # Creando los datos -------------------------------------------------------
 n <- 100
-x <- runif(n=n)
+x <- runif(n=n, min=0, max=1)
 intervalo <- sample(x=c(1, 7, 15, 30), size=n, replace=TRUE)
 lambda <- exp(b0 + b1 * x)
 lambda_transf <- lambda * intervalo
@@ -36,7 +36,8 @@ coef(mod2)
 betas
 mean((betas - coef(mod2))^2) # Error cuadratico medio
 
-# Tentacion ---------------------------------------------------------------
+
+# Tentacion, no lo haga por favor -----------------------------------------
 mod3 <- glm(y/intervalo ~ x, family=poisson(link="log"))
 coef(mod3)
 betas

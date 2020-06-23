@@ -2,7 +2,8 @@
 # estiman los parametros del modelo
 
 # Modelo: Y~Poisson(lambda) con log(lambda) = b0 + b1 * x
-# con b0=-1 y b1=1
+# donde x ~ U(0, 1)
+# con b0=-1 y b1=2
 
 # Funcion para generar los datos
 gen_dat <- function(n, b0, b1) {
