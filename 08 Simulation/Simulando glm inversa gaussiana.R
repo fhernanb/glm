@@ -17,7 +17,7 @@ disper <- c(1, 2, 4, 8)
 cbind(media=2, disper=disper, varianza=disper * media^3)
 # Parece extrano que la distribucion morada tiene mayor varianza
 
-# Lo que sucede lejos del cero
+# Lo que sucede entre 12 y 33
 curve(dinvgauss(x, mean=2, dispersion=1), from=12, to=33, las=1,
       ylab="Densidad", main="En la mitad")
 curve(dinvgauss(x, mean=2, dispersion=2), add=TRUE, col='blue')
@@ -54,12 +54,27 @@ y <- rinvgauss(n=3000, mean=mu, dispersion=disp)
 plot(density(y), lwd=2, col='tomato', main='Density')
 rug(y)
 
-# Ajustando el modelo
-mod <- glm(y ~ 1, family=inverse.gaussian(link="log"))
-summary(mod)
+# Ajustando el modelo con link=log
+mod1 <- glm(y ~ 1, family=inverse.gaussian(link="log"))
+summary(mod1)
 
-exp(coef(mod))            # estimacion de mu
-summary(mod)$dispersion   # estimacion de disp
+exp(coef(mod1))            # estimacion de mu
+summary(mod1)$dispersion   # estimacion de disp
+
+# Ajustando el modelo con link=log
+mod2 <- glm(y ~ 1, family=inverse.gaussian(link="inverse"))
+summary(mod2)
+
+1 / coef(mod2)             # estimacion de mu
+summary(mod2)$dispersion   # estimacion de disp
+
+# Ajustando el modelo con link=1/mu^2
+mod3 <- glm(y ~ 1, family=inverse.gaussian(link="1/mu^2"))
+summary(mod3)
+
+1 / sqrt(coef(mod3))       # estimacion de mu
+summary(mod3)$dispersion   # estimacion de disp
+
 
 # Estimacion con covariables ----------------------------------------------
 
