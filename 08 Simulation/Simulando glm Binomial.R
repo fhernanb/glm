@@ -22,13 +22,9 @@ head(datos)
 # Reto --------------------------------------------------------------------
 
 # Ajustar el modelo para recuperar los parametros
+# cambie zzz 
 
-mod <- glm(y ~ x, data=datos, family=binomial(link='logit'))
-summary(mod)
-coef(mod)
-
-attach(datos)
-mod <- glm(xxxxxxxxxxxxxxxxxxxxxxxx)
+mod <- glm(zzz ~ x, data=datos, family=binomial(link='logit'))
 summary(mod)
 coef(mod)
 
