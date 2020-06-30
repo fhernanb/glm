@@ -37,6 +37,9 @@ legend("topright", legend=c("mu=2, disp=1", "mu=2, disp=2",
                             "mu=2, disp=4", "mu=2, disp=8"),
        col=c("black", "blue", "red", "purple"), lty=1, bty="n")
 
+
+# Estimacion sin covariables ----------------------------------------------
+
 # Modelo: Y~IG(mu, k)
 # Parametro de localizacion: mu=2
 # Parametro de   dispersion: dispersion=2
@@ -57,6 +60,8 @@ summary(mod)
 
 exp(coef(mod))            # estimacion de mu
 summary(mod)$dispersion   # estimacion de disp
+
+# Estimacion con covariables ----------------------------------------------
 
 # Modelo: Y~IG(mu, disp) con log(mu) = b0 + b1 * x
 # con b0=-1 y b1=1
@@ -79,6 +84,6 @@ head(datos)
 mod <- glm(y ~ x, data=datos, family=inverse.gaussian(link='log'))
 summary(mod)
 
-coef(mod) # para obtener los betas
+coef(mod)                 # estimacion de los betas
 summary(mod)$dispersion   # estimacion de disp
 
