@@ -16,7 +16,7 @@ var(datos$y)
 # Creando los modelos -----------------------------------------------------
 library(gamlss)
 
-mod_zinb <- gamlss(y ~ weight, 
+mod_zinb <- gamlss(formula = y ~ weight, 
                    sigma.fo= ~ 1,
                    nu.fo= ~ weight + color,
                    data=datos, family=ZINBI)

@@ -21,7 +21,7 @@ mod_pois <- gamlss(y ~ 1, data=datos, family=PO)
 summary(mod_pois)
 logLik(mod_pois)
 
-mod_negb <- gamlss(y ~ 1, data=datos, family=NBII)
+mod_negb <- gamlss(y ~ 1, data=datos, family=NBI)
 summary(mod_negb)
 logLik(mod_negb)
 
@@ -33,6 +33,15 @@ mod_zinb <- gamlss(y ~ 1, data=datos, family=ZINBI)
 summary(mod_zinb)
 logLik(mod_zinb)
 
-# Comparando con el AIC ---------------------------------------------------
+# Comparando con nuestros ojos --------------------------------------------
+y <- datos$y
+histDist(y=y, family=PO)
+histDist(y=y, family=NBI)
+histDist(y=y, family=ZIP)
+histDist(y=y, family=ZINBI)
+
+# Comparando con el AIC = - 2 * logLik + k * npar -------------------------
 AIC(mod_pois, mod_negb, mod_zip, mod_zinb, k=2)
+
+
 
