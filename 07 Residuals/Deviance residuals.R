@@ -10,13 +10,15 @@ weight <- c(1, 1, 1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.3,
             1.9, 2, 2, 2.1, 2.1, 2.1, 2.1, 2.1, 2.2, 2.2, 
             2.2, 2.2, 2.3, 2.4, 2.4, 2.5, 2.5, 2.5, 2.6, 
             2.7, 2.7, 2.8, 2.9, 2.9, 2.9, 2.9, 2.9, 2.9, 3, 3, 3)
+n <- length(y)
 
+# Dibujando los datos
 plot(x=weight, y, yaxt='n', pch=20)
 axis(side=2, at=0:1, labels=0:1, las=1)
 
 # Los tres modelos
 mod <- glm(y ~ weight, family=binomial)
-mod_sat <- glm(y ~ as.factor(1:length(y)), family=binomial)
+mod_sat <- glm(y ~ as.factor(1:n), family=binomial)
 mod_nul <- glm(y ~ 1, family=binomial)
 
 # Dibujando los datos y la curva con cada modelo
@@ -51,14 +53,14 @@ residuals(mod, type='response')
 
 # Deviance residuals and Deviance ---> manually
 ll_mod <- dbinom(x=y, size=1, prob=pi_hat, log=TRUE)
-sqrt(-2 * ll_mod) # Deviance residuals
+sqrt(-2 * ll_mod) # Deviance residuals sin signo
 sum(-2 * ll_mod)  # Residual deviance
-mod$deviance # Residual deviance
+mod$deviance      # Residual deviance
 
 # Deviance residuals and Deviance ---> automatically
 residuals(mod, type='deviance')         # Deviance residuals
 sum(residuals(mod, type='deviance')^2)  # Residual deviance
-mod$deviance # Residual deviance
+mod$deviance                            # Residual deviance
 
 # Pearson residuals ---> manually
 pi <- (y - pi_hat) / sqrt(pi_hat * (1-pi_hat) / 1)
