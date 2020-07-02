@@ -8,10 +8,10 @@ pairs(datos[c('price','size','taxes')])
 # Modelo inv Gaussian -----------------------------------------------------
 with(datos, plot(density(price)))
 
-mod1 <- glm(price ~ size + new + beds + size:new + size:beds,
+mod1 <- glm(price ~ size + new + beds + size*new + size*beds,
            data=datos, family=inverse.gaussian) # upps
 
-mod1 <- glm(price ~ size + new + beds + size:new + size:beds,
+mod1 <- glm(price ~ size + new + beds + size*new + size*beds,
             data=datos, family=inverse.gaussian(link="log"))
 summary(mod1)
 

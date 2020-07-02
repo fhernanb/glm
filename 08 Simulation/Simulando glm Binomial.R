@@ -1,7 +1,7 @@
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
 
-# Modelo: Y~Binomial(n=10, pi) con logit(pi) = b0 + b1 * x
+# Modelo: Y~Binomial(m=10, pi) con logit(pi) = b0 + b1 * x
 # con b0=-1 y b1=1
 
 # Funcion para generar los datos
