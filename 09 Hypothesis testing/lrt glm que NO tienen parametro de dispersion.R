@@ -1,5 +1,4 @@
-
-# Ejemplo 1 ---------------------------------------------------------------
+# Ejemplo 1 - Bernoulli ---------------------------------------------------
 
 # Usando los datos de cangrejos
 url <- "http://www.stat.ufl.edu/~aa/cat/data/Crabs.dat"
@@ -15,18 +14,21 @@ Crabs <- read.table(url, header=TRUE)
 fit0 <- glm(y ~ 1, family=binomial, data=Crabs)
 fit1 <- glm(y ~ width, family=binomial, data=Crabs)
 
+coef(fit0)
+coef(fit1)
+
 # Prueba razon de verosimilitud manual
-lrt <- -2*(logLik(fit0) - logLik(fit1))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit0) - deviance(fit1)
 lrt
-pchisq(q=lrt, df=3-2, lower.tail=FALSE)
+pchisq(q=lrt, df=2-1, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud automatica
 anova(fit0, fit1, test="Chisq", dispersion=1)
 
-# Conclusion: ambas pruebas generan los mismos resultados
+# Conclusion: podemos rechazar H0
 
-# Ejemplo 2 ---------------------------------------------------------------
+
+# Ejemplo 2 - Poisson -----------------------------------------------------
 
 # Usando los datos de cangrejos
 # color: 1, medium light; 2, medium; 3, medium dark; 4, dark 
@@ -39,28 +41,31 @@ Crabs <- read.table(url, header=TRUE)
 Crabs$color <- as.factor(Crabs$color)
 Crabs$spine <- as.factor(Crabs$spine)
 
-# Se desea modelar la variable Y que representa el numero de satelites
+# Se desea modelar la variable Y que representa el 
+# numero de satelites.
 
 # H0: un modelo Poisson con weight y color esta bien
-# H1: un modelo Poisson con weight, color, width y spine es mejor
+# H1: un modelo Poisson con weight, color, width y spine es mejor.
 
-fit1 <- glm(y ~ weight + color, family=poisson, data=Crabs)
-fit2 <- glm(y ~ weight + color + width + spine, family=poisson, data=Crabs)
+fit0 <- glm(y ~ weight + color, 
+            family=poisson, data=Crabs)
+fit1 <- glm(y ~ weight + color + width + spine, 
+            family=poisson, data=Crabs)
 
 # Coeficientes
+coef(fit0)
 coef(fit1)
-coef(fit2)
 
 # Prueba razon de verosimilitud manual comparando fit1 y fit2
-lrt <- -2*(logLik(fit1) - logLik(fit2))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit0) - deviance(fit1)
 lrt
 pchisq(q=lrt, df=8-5, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud automatica
-anova(fit1, fit2, test="Chisq", dispersion=1)
+anova(fit0, fit1, test="Chisq", dispersion=1)
 
-# Interpretacion: width y spine no mejoran el modelo fit 1
+# Conclusion: width y spine no mejoran el modelo,
+# no hay evidencias para rechazar H0.
 
 
 # Ejemplo de comparaciones secuenciales -----------------------------------
@@ -94,33 +99,29 @@ fit3 <- glm(y ~ weight + width + color, family=poisson, data=Crabs)
 fit4 <- glm(y ~ weight + width + color + spine, family=poisson, data=Crabs)
 
 # Prueba razon de verosimilitud manual comparando fit0 y fit1
-lrt <- -2 * (logLik(fit0) - logLik(fit1))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit0) - deviance(fit1)
 lrt
 pchisq(q=lrt, df=2-1, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud manual comparando fit1 y fit2
-lrt <- -2 * (logLik(fit1) - logLik(fit2))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit1) - deviance(fit2)
 lrt
 pchisq(q=lrt, df=3-2, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud manual comparando fit2 y fit3
-lrt <- -2 * (logLik(fit2) - logLik(fit3))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit2) - deviance(fit3)
 lrt
 pchisq(q=lrt, df=6-3, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud manual comparando fit3 y fit4
-lrt <- -2 * (logLik(fit3) - logLik(fit4))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit3) - deviance(fit4)
 lrt
 pchisq(q=lrt, df=8-6, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud automatica
 anova(fit4, test="Chisq", dispersion=1)
 
-# Interpretacion: las variables weight y color son las que
+# Conclusion: las variables weight y color son las que
 # deberian estar en el modelo final
 
 # Otro ejemplo ------------------------------------------------------------
@@ -144,8 +145,8 @@ Crabs$spine <- as.factor(Crabs$spine)
 # fit4: con todas covariables - spine
 # fit5: con todas las covariables
 
-# H0: el modelo "menor" esta bien
-# H1: el modelo "mayor" es mejor
+# H0: el modelo fit_i esta bien
+# H1: el modelo fit5 es mejor
 
 fit1 <- glm(y ~          width + color + spine, family=poisson, data=Crabs)
 fit2 <- glm(y ~ weight +         color + spine, family=poisson, data=Crabs)
@@ -154,26 +155,22 @@ fit4 <- glm(y ~ weight + width + color        , family=poisson, data=Crabs)
 fit5 <- glm(y ~ weight + width + color + spine, family=poisson, data=Crabs)
 
 # Prueba razon de verosimilitud manual comparando fit1 y fit5
-lrt <- -2 * (logLik(fit1) - logLik(fit5))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit1) - deviance(fit5)
 lrt
 pchisq(q=lrt, df=8-7, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud manual comparando fit2 y fit5
-lrt <- -2 * (logLik(fit2) - logLik(fit5))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit2) - deviance(fit5)
 lrt
 pchisq(q=lrt, df=8-7, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud manual comparando fit3 y fit5
-lrt <- -2 * (logLik(fit3) - logLik(fit5))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit3) - deviance(fit5)
 lrt
 pchisq(q=lrt, df=8-5, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud manual comparando fit4 y fit5
-lrt <- -2 * (logLik(fit4) - logLik(fit5))
-lrt <- as.numeric(lrt)
+lrt <- deviance(fit4) - deviance(fit5)
 lrt
 pchisq(q=lrt, df=8-6, lower.tail=FALSE)
 
