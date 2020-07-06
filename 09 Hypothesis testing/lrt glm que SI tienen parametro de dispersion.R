@@ -24,6 +24,14 @@ MASS::gamma.dispersion(fit0)
 coef(fit1)
 MASS::gamma.dispersion(fit1)
 
+# Pearson estimator for phi manually
+w <- weights(fit1, type="working")
+e <- residuals(fit1, type="working")
+sum( w * e^2 ) / df.residual(fit1);
+
+# Pearson estimator for phi automatically
+summary(fit1)$dispersion
+
 # Prueba razon de verosimilitud manual
 F0 <- (deviance(fit0)-deviance(fit1)) / ((4-2) * 0.1328696)
 F0
@@ -32,8 +40,8 @@ pf(q=F0, df1=4-2, df2=100-4, lower.tail=FALSE)
 # Prueba razon de verosimilitud automatica
 anova(fit0, fit1, test="F", dispersion=0.1328696)
 
-# Conclusion: hay evidencias para rechazar H0, un modelo con size,
-# new y beds es mejor.
+# Conclusion: hay evidencias para rechazar H0, un modelo con 
+# size, new y beds es mejor.
 
 
 # Ejemplo 2 - Normal ------------------------------------------------------
@@ -59,7 +67,7 @@ summary(fit1)$dispersion
 # Prueba razon de verosimilitud manual
 F0 <- (deviance(fit0)-deviance(fit1)) / ((7-2) * 49.95815)
 F0
-pf(q=F0, df1=7-2, df2=100-7, lower.tail=FALSE)
+pf(q=F0, df1=7-2, df2=93-7, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud automatica
 anova(fit0, fit1, test="F", dispersion=49.95815)
