@@ -98,18 +98,18 @@ fit1 <- glm(price ~ size + new + beds + taxes,
 
 # Estimaciones de los parametros para cada modelo
 coef(fit0)
-summary(fit0)$dispersion  # estimacion del parametro de dispersion
+fit0$deviance / fit0$df.residual  # estimacion de phi con Mean Deviance
 
 coef(fit1)
-summary(fit1)$dispersion  # estimacion del parametro de dispersion
+fit1$deviance / fit1$df.residual  # estimacion de phi con Mean Deviance
 
 # Prueba razon de verosimilitud manual
-F0 <- (deviance(fit0)-deviance(fit1)) / ((5-3) * 0.0006811502)
+F0 <- (deviance(fit0)-deviance(fit1)) / ((5-3) * 0.0009483615)
 F0
 pf(q=F0, df1=5-3, df2=100-5, lower.tail=FALSE)
 
 # Prueba razon de verosimilitud automatica
-anova(fit0, fit1, test="F", dispersion=0.0006811502)
+anova(fit0, fit1, test="F", dispersion=0.0009483615)
 
 # Conclusion: no hay evidencias para rechazar H0, las variables
 # new y beds no aportan informacion al modelo.
