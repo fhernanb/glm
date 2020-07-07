@@ -18,11 +18,14 @@ n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=1)
 head(datos)
 
+# Curioseando los valores de y
+barplot(table(datos$y))
 
 # Reto --------------------------------------------------------------------
 
 # Ajustar el modelo para recuperar los parametros
-# cambie zzz 
+# cambie zzz por cbind(algo, algo)
+# consulte lo que debe ser el algo.
 
 mod <- glm(zzz ~ x, data=datos, family=binomial(link='logit'))
 summary(mod)
