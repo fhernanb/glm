@@ -40,15 +40,15 @@ legend("topright", legend=c("mu=2, disp=1", "mu=2, disp=2",
 
 # Estimacion sin covariables ----------------------------------------------
 
-# Modelo: Y~IG(mu, k)
+# Modelo: Y~IG(mu, phi)
 # Parametro de localizacion: mu=2
-# Parametro de   dispersion: dispersion=2
+# Parametro de   dispersion: phi=2
 
 library(statmod)
 
 mu <- 2
-disp <- 2
-y <- rinvgauss(n=3000, mean=mu, dispersion=disp)
+phi <- 2
+y <- rinvgauss(n=3000, mean=mu, dispersion=phi)
 
 # Densidad empirica
 plot(density(y), lwd=2, col='tomato', main='Density')
@@ -59,40 +59,40 @@ mod1 <- glm(y ~ 1, family=inverse.gaussian(link="log"))
 summary(mod1)
 
 exp(coef(mod1))            # estimacion de mu
-summary(mod1)$dispersion   # estimacion de disp
+summary(mod1)$dispersion   # estimacion de phi
 
 # Ajustando el modelo con link=log
 mod2 <- glm(y ~ 1, family=inverse.gaussian(link="inverse"))
 summary(mod2)
 
 1 / coef(mod2)             # estimacion de mu
-summary(mod2)$dispersion   # estimacion de disp
+summary(mod2)$dispersion   # estimacion de phi
 
 # Ajustando el modelo con link=1/mu^2
 mod3 <- glm(y ~ 1, family=inverse.gaussian(link="1/mu^2"))
 summary(mod3)
 
 1 / sqrt(coef(mod3))       # estimacion de mu
-summary(mod3)$dispersion   # estimacion de disp
+summary(mod3)$dispersion   # estimacion de phi
 
 
 # Estimacion con covariables ----------------------------------------------
 
-# Modelo: Y~IG(mu, disp) con log(mu) = b0 + b1 * x
+# Modelo: Y~IG(mu, phi) con log(mu) = b0 + b1 * x
 # con b0=-1 y b1=1
-# disp = 2
+# phi = 2
 
 # Funcion para generar los datos
-gen_dat <- function(n, b0, b1, disp) {
+gen_dat <- function(n, b0, b1, phi) {
   x <- runif(n=n)
   mu <- exp(b0 + b1 * x)
-  y <- rinvgauss(n=n, mean=mu, disp=disp)
+  y <- rinvgauss(n=n, mean=mu, disp=phi)
   data.frame(y=y, x=x)
 }
 
 # Generando los datos
 n <- 3000
-datos <- gen_dat(n=n, b0=-1, b1=1, disp=2)
+datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
 # Ajustado el modelo
@@ -100,5 +100,5 @@ mod <- glm(y ~ x, data=datos, family=inverse.gaussian(link='log'))
 summary(mod)
 
 coef(mod)                 # estimacion de los betas
-summary(mod)$dispersion   # estimacion de disp
+summary(mod)$dispersion   # estimacion de phi
 

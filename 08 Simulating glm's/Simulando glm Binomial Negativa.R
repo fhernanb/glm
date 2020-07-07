@@ -14,16 +14,27 @@ gen_dat <- function(n, b0, b1, k) {
 }
 
 # Generando los datos
-n <- 50
+n <- 150
 datos <- gen_dat(n=n, b0=-1, b1=2, k=3)
 head(datos)
 
 # Ajustado el modelo
 library(MASS)
 mod <- glm.nb(y ~ x, data=datos)
-summary(mod)
+
 coef(mod)     
-mod$theta  # Los valores estimados son cercanos a los verdaderos
+mod$theta  # This is the value of k (called theta in MASS)
+
+# summary basico
+summary(mod)
+
+# glm.convert function convertes to the style of output from glm
+mod <- glm.convert(mod)
+printCoefmat(coef(summary(mod, dispersion=1)))
+
+# Note that we have to specify explicitly that the dispersion parameter is φ = 1,
+# because after using glm.convert(), r does not know automatically that the
+# resulting glm family should have dispersion equal to one.
 
 # Envelopes
 fit.model <- mod

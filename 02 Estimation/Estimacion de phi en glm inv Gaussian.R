@@ -1,4 +1,4 @@
-# Para estimar el parametro de dispesion phi en un glm gamma
+# Para estimar el parametro de dispesion phi en un glm inv Gaussian
 # se puede usar los siguientes metodos:
 
 # 1) Maximum likelihood estimator
@@ -10,12 +10,12 @@
 
 # Ejemplo -----------------------------------------------------------------
 library(GLMsData)
-data(trees)
-mod <- glm(Volume ~ log(Height) + log(Girth), data=trees,
-           family=Gamma(link=log))
+data(lime)
+mod <- glm(Foliage ~ Origin * log(DBH),
+           family=inverse.gaussian(link="log"), data=lime)
 
 # Maximum likelihood estimate
-MASS::gamma.dispersion(mod)
+deviance(mod)/length(lime$Foliage)
 
 # Modified Profile Log-Likelihood Estimator
 source("https://tinyurl.com/ya2q6v7e")
@@ -35,34 +35,31 @@ summary(mod)$dispersion
 # Ejemplo con datos simulados ---------------------------------------------
 
 # Funcion para generar obs de un glm gamma
-rgamma_glm <- function(n, mu, phi) {
-  rgamma(n=n, shape=1/phi, scale=mu*phi)
-}
 
 # Funcion para generar el dataframe
 gen_dat <- function(n, b0, b1, phi) {
   x <- runif(n=n)
   mu <- exp(b0 + b1 * x)
-  y <- rgamma_glm(n=n, mu=mu, phi=phi)
+  y <- statmod::rinvgauss(n=n, mean=mu, disp=phi)
   data.frame(y=y, x=x)
 }
 
-n <- 1000
-phi <- 2
+n <- 50
+phi <- 3
 
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=phi)
-mod <- glm(y ~ x, data=datos, family=Gamma(link=log))
+mod <- glm(y ~ x, data=datos, 
+           family=inverse.gaussian(link=log))
 
-# The maximum likelihood estimate of the shape parameter.
-MASS::gamma.dispersion(mod)
+# Maximum likelihood estimate
+deviance(mod)/length(datos$y)
 
-# Para obtener Modified Profile Log-Likelihood Estimator se usa:
-source("https://tinyurl.com/ydcf3a38")
+# Modified Profile Log-Likelihood Estimator
+source("https://tinyurl.com/ya2q6v7e")
 mod_prof_ll_phi_glm(mod, verbose=TRUE)
 
-# Para obtener Mean Deviance Estimator se usa:
+# Mean Deviance Estimator
 mod$deviance / mod$df.residual
 
-# Para obtener Pearson Estimator se usa:
+# Otra forma para obtener Pearson Estimator es:
 summary(mod)$dispersion
-
