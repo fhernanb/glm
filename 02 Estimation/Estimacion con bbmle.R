@@ -1,4 +1,4 @@
-# En este ejemplo se estiman los parametros de un glm Poiss
+# En este ejemplo se estiman los parametros de un glm Poison
 # usando bblme
 
 # Los datos
