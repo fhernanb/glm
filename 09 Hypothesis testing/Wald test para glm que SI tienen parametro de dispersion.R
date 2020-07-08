@@ -25,7 +25,7 @@ deviance(fit) / df.residual(fit)
 printCoefmat(coef(summary(fit, dispersion=0.1414655)))
 
 # Calculando el estadistico y su valor-P
-T <- (-2.1790e-06 - (-0.000001)) / 2.6361e-07
+T <- (-2.1790e-06 - (-0.000001)) / 2.7644e-07
 T
 pt(q=T, df=100-4, lower.tail=TRUE) # valor-P
 
