@@ -46,23 +46,23 @@ Crabs$spine <- as.factor(Crabs$spine)
 # numero de satelites.
 
 # El objetivo es estudiar las siguientes hipotesis
-# H0: beta_weight = 0.3
-# H1: beta_weight > 0.3
+# H0: beta_weight = 0.1
+# H1: beta_weight > 0.1
 
 fit <- glm(y ~ weight + color + width + spine, 
            family=poisson(link=log), data=Crabs)
 summary(fit)
 
 # Calculando el estadistico y su valor-P
-z <- (0.49647 - 0.3) / 0.16626
+z <- (0.49647 - 0.1) / 0.16626
 z
 pnorm(q=z, lower.tail=FALSE) # valor-P
 
-# Conclusion: como el valor-P es mas grande que un nivel de
-# significancia usual, se concluye que no hay evidencias para
-# rechazar H0.
+# Conclusion: como el valor-P es menor grande que un nivel de
+# significancia usual, se concluye que SI hay evidencias para
+# rechazar H0, es decir, el beta_weight es ahora mayor que 0.1.
 
 # Ilustrando el valor-P
 library(usefultools)
 shadow.dist(dist='dnorm', param=list(mean=0, sd=1),
-            a=z, type='upper', from=-3, to=3)
+            a=z, type='upper', from=1, to=4)
