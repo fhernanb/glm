@@ -117,7 +117,7 @@ anova(fit0, fit1, test="F", dispersion=0.0009483615)
 
 # Ejemplo 4 - Negative binomial --------------------------------------------
 
-# Usando los datos de las casas
+# Usando los datos de cangrejas y satellites
 library(GLMsData)
 data("hcrabs")
 head(hcrabs, n=10)
