@@ -9,7 +9,7 @@ clotting <- data.frame(conc = c(5,10,15,20,30,40,60,80,100,
                                 69, 35, 26, 21, 18, 16, 13, 12, 12),
                        lot = factor(c(rep(1, 9), rep(2, 9))))
 
-# Dibujando los datos y ajustando el modelo de interes
+# Ajustando el modelo de interes
 fit0 <- glm(time ~ log(conc), family=Gamma, data=clotting)
 
 fit1 <- glm(time ~ log(conc) * lot, family=Gamma, data=clotting)
@@ -20,13 +20,7 @@ MASS::gamma.dispersion(fit0) # Maximum likelihood estimate
 summary(fit0)$dispersion # Pearson Estimator
 fit0$deviance / fit0$df.residual # Mean Deviance Estimator
 
-# Parametros estimados en fit1
-coef(fit1) # betas
-MASS::gamma.dispersion(fit1) # Maximum likelihood estimate
-summary(fit1)$dispersion # Pearson Estimator
-fit1$deviance / fit1$df.residual # Mean Deviance Estimator
-
-# Para enriquecer el modelo glm
+# Para enriquecer el modelo glm mas general fit1
 library("enrichwith")
 enriched_fit1 <- enrich(fit1, with="auxiliary functions")
 
