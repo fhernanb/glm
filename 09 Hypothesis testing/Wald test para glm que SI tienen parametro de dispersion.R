@@ -88,7 +88,7 @@ var_cov_hat
 # Estadistico
 aux <- L %*% beta_hat - C
 F0 <- t(aux) %*% solve(L %*% var_cov_hat %*% t(L)) %*% aux
-F0 <- as.numeric(F0)
+F0 <- as.numeric(F0) / 2
 F0
 pf(q=F0, df1=2, df2=100-4, lower.tail=FALSE) # valor-P
 

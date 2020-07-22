@@ -89,7 +89,6 @@ round(mis_res, digits=3)
 library(car)
 qqPlot(rstudent(mod))
 
-
 # Envelopes de Gilberto Alvarenga -----------------------------------------
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_bino")
