@@ -14,4 +14,8 @@ browseURL("https://www.ime.usp.br/~giapaula/texto_2013.pdf")
 fit.model <- fit
 attach(Crabs)
 source("https://www.ime.usp.br/~giapaula/envel_bino")
-source("https://www.ime.usp.br/~giapaula/diag_bino")
+
+# Quantile residuals
+library(statmod)
+qr <- qresiduals(fit)
+car::qqPlot(qr, distribution="norm")

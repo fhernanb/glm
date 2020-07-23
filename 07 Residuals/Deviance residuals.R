@@ -93,3 +93,8 @@ qqPlot(rstudent(mod))
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_bino")
 source("https://www.ime.usp.br/~giapaula/diag_bino")
+
+# Quantile residuals
+library(statmod)
+qr <- qresiduals(mod)
+car::qqPlot(qr, distribution="norm")
