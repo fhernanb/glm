@@ -1,7 +1,8 @@
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
 
-# Modelo: Y~BN(mu, k) con log(mu) = b0 + b1 * x
+# Modelo: Y~BN(mu, k), mu es la media y k es el param precision
+# con log(mu) = b0 + b1 * x
 # donde x ~ U(0, 1)
 # con b0=-1 y b1=2
 
@@ -17,12 +18,13 @@ gen_dat <- function(n, b0, b1, k) {
 n <- 150
 datos <- gen_dat(n=n, b0=-1, b1=2, k=3)
 head(datos)
+barplot(table(datos$y))
 
 # Ajustado el modelo
 library(MASS)
 mod <- glm.nb(y ~ x, data=datos)
 
-coef(mod)     
+coef(mod)  # Betas estimados    
 mod$theta  # This is the value of k (called theta in MASS)
 
 # summary basico
@@ -30,25 +32,36 @@ summary(mod)
 
 # glm.convert function convertes to the style of output from glm
 mod <- glm.convert(mod)
+summary(mod)
 printCoefmat(coef(summary(mod, dispersion=1)))
 
-# Note that we have to specify explicitly that the dispersion parameter is φ = 1,
-# because after using glm.convert(), r does not know automatically that the
-# resulting glm family should have dispersion equal to one.
+# Note that we have to specify explicitly that the dispersion parameter 
+# is φ = 1, because after using glm.convert(), r does not know 
+# automatically that the resulting glm family should have 
+# dispersion equal to one.
 
 # Envelopes
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_nbin")
 
-# Ajustando un modelo Poisson
-bad <- glm(y ~ x, data=datos, family=poisson)
+# Usando los Quantile residuals de Dunn & Smith (1996)
+qr <- statmod::qresiduals(mod)
+car::qqPlot(qr, distribution="norm", pch=21, col="tomato")
+
+# Ajustando un modelo Poisson que es incorrecto, vamos a ver 
+# si este modelo "bad" se puede identificar como pesimo..
+bad_mod <- glm(y ~ x, data=datos, family=poisson)
 summary(bad)
 coef(bad)
-fit.model <- bad
+fit.model <- bad_mod
 source("https://www.ime.usp.br/~giapaula/envel_pois")
 
+# Usando los Quantile residuals de Dunn & Smith (1996)
+qr <- statmod::qresiduals(bad_mod)
+car::qqPlot(qr, distribution="norm", pch=21, col="tomato")
+
 # Comparando con el AIC
-AIC(mod, bad, k=2)
+AIC(mod, bad_mod, k=2)
 
 # Reto --------------------------------------------------------------------
 
