@@ -85,16 +85,13 @@ mis_res <- cbind(deviance=residuals(mod, type='deviance'),
 
 round(mis_res, digits=3)
 
-# Algunos graficos
-library(car)
-qqPlot(rstudent(mod))
 
-# Envelopes de Gilberto Alvarenga -----------------------------------------
+# Graficos de diagnostico -------------------------------------------------
+
+# Usando los envelopes de Williams (1987)
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_bino")
-source("https://www.ime.usp.br/~giapaula/diag_bino")
 
-# Quantile residuals
-library(statmod)
-qr <- qresiduals(mod)
-car::qqPlot(qr, distribution="norm")
+# Usando los Quantile residuals de Dunn & Smith (1996)
+qr <- statmod::qresiduals(mod)
+car::qqPlot(qr, distribution="norm", pch=22, col="pink")
