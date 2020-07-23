@@ -1,7 +1,7 @@
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
 
-# Modelo: Y~Gamma(mu, k) con log(mu) = b0 + b1 * x
+# Modelo: Y~Gamma(mu, phi=dipsersion param) con log(mu) = b0 + b1 * x
 # con b0=-1 y b1=1
 
 # Se va a usar la funcion rgamma_glm() y no rgamma()
