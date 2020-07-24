@@ -1,4 +1,15 @@
-# En este ejemplo se simulan datos de un glm y se 
+# Comprobando que k es el parametro de precision ---------------------
+
+n <- 10000
+mu <- 5
+k <- 0.5
+y <- rnbinom(n=n, mu=mu, size=k)
+
+mean(y)         # Media muestral
+var(y)          # Varianza muestral
+mu + mu^2 / k   # Varianza teorica
+
+# En este ejemplo se simulan datos de un glm y se ---------------------
 # estiman los parametros del modelo
 
 # Modelo: Y~BN(mu, k), mu es la media y k es el param precision
@@ -25,7 +36,7 @@ library(MASS)
 mod <- glm.nb(y ~ x, data=datos)
 
 coef(mod)  # Betas estimados    
-mod$theta  # This is the value of k (called theta in MASS)
+mod$theta  # This is the value of k (called theta)
 
 # summary basico
 summary(mod)
