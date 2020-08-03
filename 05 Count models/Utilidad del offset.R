@@ -43,3 +43,13 @@ coef(mod3)
 betas
 mean((betas - coef(mod3))^2) # Error cuadratico medio
 
+# Usando gamlss
+library(gamlss)
+mod4 <- gamlss(y ~ x, family=PO) # No, asi no, esta mal
+coef(mod4, what="mu")
+
+mod5 <- gamlss(y ~ x + offset(log(intervalo)), family=PO) # Asi si
+coef(mod5, what="mu")
+coef(mod2)
+betas
+
