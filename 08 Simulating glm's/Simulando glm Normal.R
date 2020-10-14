@@ -1,12 +1,16 @@
+# -------------------------------------------------------------------------
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
+# -------------------------------------------------------------------------
+
 
 # Modelo: Y~Normal(mu, s2) con mu = 1 / (b0 + b1 * x)
 # con b0=-1 y b1=1 y s2=9
+# la covariable x ~ U(0, 1)
 
 # Funcion para generar los datos
 gen_dat <- function(n, b0, b1, sd) {
-  x <- runif(n=n)
+  x <- runif(n=n, min=0, max=1)
   media <- 1 / (b0 + b1 * x)
   y <- rnorm(n=n, mean=media, sd=sd)
   data.frame(y=y, x=x)
@@ -16,6 +20,12 @@ gen_dat <- function(n, b0, b1, sd) {
 n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=1, sd=3)
 head(datos)
+
+# Exploremos los datos
+library(ggplot2)
+
+ggplot(datos, aes(x=x, y=y)) + 
+  geom_point()
 
 # Ajustado el modelo
 mod <- glm(y ~ x, data=datos, family=gaussian(link='inverse'))
