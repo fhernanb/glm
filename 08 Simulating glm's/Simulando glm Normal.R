@@ -31,6 +31,10 @@ mod <- glm(y ~ x, data=datos, family=gaussian(link='inverse'))
 summary(mod)
 coef(mod)     # Los valores estimados son cercanos a los verdaderos
 
+# Envelopes
+fit.model <- mod
+source("https://www.ime.usp.br/~giapaula/envel_norm")
+
 # Reto --------------------------------------------------------------------
 
 # Explorar el efecto del tamano de muestra n en las estimaciones.

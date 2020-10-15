@@ -44,9 +44,11 @@ legend("topright", legend=c("mu=2, disp=1", "mu=2, disp=2",
 
 # Estimacion sin covariables ----------------------------------------------
 
+# -------------------------------------------------------------------------
 # Modelo: Y~IG(mu, phi)
 # Parametro de localizacion: mu=2
 # Parametro de   dispersion: phi=2
+# -------------------------------------------------------------------------
 
 library(statmod) # Para acceder a la distribucion inv gaussiana
 
@@ -82,10 +84,12 @@ summary(mod3)$dispersion   # estimacion de phi
 
 # Estimacion con covariables ----------------------------------------------
 
+# -------------------------------------------------------------------------
 # Modelo: Y~IG(mu, phi) con log(mu) = b0 + b1 * x
 # con b0=-1 y b1=1
 # phi = 2
 # la covariable x ~ U(0, 1)
+# -------------------------------------------------------------------------
 
 library(statmod) # Para acceder a la distribucion inv gaussiana
 
@@ -98,7 +102,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 1000
+n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
@@ -116,3 +120,6 @@ summary(mod)
 coef(mod)                 # estimacion de los betas
 summary(mod)$dispersion   # estimacion de phi
 
+# Envelopes
+fit.model <- mod
+source("https://www.ime.usp.br/~giapaula/envel_ninv")

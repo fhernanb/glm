@@ -28,7 +28,7 @@ gen_dat <- function(n, b0, b1, k) {
 }
 
 # Generando los datos
-n <- 150
+n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=2, k=3)
 head(datos)
 barplot(table(datos$y))
@@ -67,11 +67,14 @@ source("https://www.ime.usp.br/~giapaula/envel_nbin")
 qr <- statmod::qresiduals(mod)
 car::qqPlot(qr, distribution="norm", pch=21, col="tomato")
 
+# -------------------------------------------------------------------------
 # Ajustando un modelo Poisson que es incorrecto, vamos a ver 
-# si este modelo "bad" se puede identificar como pesimo..
+# si este modelo "bad" se puede identificar como pesimo.
+# -------------------------------------------------------------------------
+
 bad_mod <- glm(y ~ x, data=datos, family=poisson)
-summary(bad)
-coef(bad)
+summary(bad_mod)
+coef(bad_mod)
 fit.model <- bad_mod
 source("https://www.ime.usp.br/~giapaula/envel_pois")
 

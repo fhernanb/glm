@@ -24,7 +24,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 100
+n <- 10
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
@@ -45,6 +45,10 @@ MASS:::gamma.shape.glm(mod) # para obtener k automaticamente
 
 # Para estimar phi manualmente
 sum((datos$y - fitted(mod))^2 / fitted(mod)^2) / (n-2)
+
+# Envelopes
+fit.model <- mod
+source("https://www.ime.usp.br/~giapaula/envel_gama")
 
 # Reto --------------------------------------------------------------------
 
