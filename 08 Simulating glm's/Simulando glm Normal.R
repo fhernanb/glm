@@ -3,7 +3,6 @@
 # estiman los parametros del modelo
 # -------------------------------------------------------------------------
 
-
 # Modelo: Y~Normal(mu, s2) con mu = 1 / (b0 + b1 * x)
 # con b0=-1 y b1=1 y s2=9
 # la covariable x ~ U(0, 1)
@@ -50,7 +49,7 @@ for (i in n) {
   for (j in 1:nrep) {
     xxx <- gen_dat(n=xxx, b0=-1, b1=1)
     mod <- glm(xxx)
-    results[xxx] <- xxx
+    results[xxx] <- xxx ---> ahi se almacenan b0, b1 y sigma2
   }
 }
 

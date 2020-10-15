@@ -1,8 +1,11 @@
+# -------------------------------------------------------------------------
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
+# -------------------------------------------------------------------------
 
 # Modelo: Y~Gamma(mu, phi=dipsersion param) con log(mu) = b0 + b1 * x
 # con b0=-1 y b1=1
+# la covariable x ~ U(0, 1)
 
 # Se va a usar la funcion rgamma_glm() y no rgamma()
 # porque la parametrizacion de la fdp de dgamma() no 
@@ -25,12 +28,18 @@ n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
+# Exploremos los datos
+library(ggplot2)
+
+ggplot(datos, aes(x=x, y=y)) + 
+  geom_point()
+
 # Ajustado el modelo
 mod <- glm(y ~ x, data=datos, family=Gamma(link='log'))
 summary(mod)
 
 coef(mod) # para obtener los betas
-MASS::gamma.dispersion(mod) # para obtener phi
+MASS::gamma.dispersion(mod) # para obtener phi Maximum Likelihood
 MASS::gamma.shape(mod)      # para obtener k automaticamente
 MASS:::gamma.shape.glm(mod) # para obtener k automaticamente
 
