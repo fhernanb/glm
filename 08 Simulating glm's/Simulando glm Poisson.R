@@ -1,13 +1,16 @@
+# -------------------------------------------------------------------------
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
+# -------------------------------------------------------------------------
 
 # Modelo: Y~Poisson(lambda) con log(lambda) = b0 + b1 * x
 # donde x ~ U(0, 1)
 # con b0=-1 y b1=2
+# la covariable x ~ U(0, 1)
 
 # Funcion para generar los datos
 gen_dat <- function(n, b0, b1) {
-  x <- runif(n=n)
+  x <- runif(n=n, min=0, max=1)
   lambda <- exp(b0 + b1 * x)
   y <- rpois(n=n, lambda=lambda)
   data.frame(y=y, x=x)
@@ -17,6 +20,12 @@ gen_dat <- function(n, b0, b1) {
 n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=2)
 head(datos)
+
+# Exploremos los datos
+library(ggplot2)
+
+ggplot(datos, aes(x=x, y=y)) + 
+  geom_point()
 
 # Ajustado el modelo
 mod <- glm(y ~ x, data=datos, family=poisson(link='log'))

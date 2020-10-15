@@ -9,8 +9,10 @@ mean(y)         # Media muestral
 var(y)          # Varianza muestral
 mu + mu^2 / k   # Varianza teorica
 
+# -------------------------------------------------------------------------
 # En este ejemplo se simulan datos de un glm y se ---------------------
 # estiman los parametros del modelo
+# -------------------------------------------------------------------------
 
 # Modelo: Y~BN(mu, k), mu es la media y k es el param precision
 # con log(mu) = b0 + b1 * x
@@ -19,7 +21,7 @@ mu + mu^2 / k   # Varianza teorica
 
 # Funcion para generar los datos
 gen_dat <- function(n, b0, b1, k) {
-  x <- runif(n=n)
+  x <- runif(n=n, min=0, max=1)
   mu <- exp(b0 + b1 * x)
   y <- rnbinom(n=n, mu=mu, size=k)
   data.frame(y=y, x=x)
@@ -30,6 +32,12 @@ n <- 150
 datos <- gen_dat(n=n, b0=-1, b1=2, k=3)
 head(datos)
 barplot(table(datos$y))
+
+# Exploremos los datos
+library(ggplot2)
+
+ggplot(datos, aes(x=x, y=y)) + 
+  geom_point()
 
 # Ajustado el modelo
 library(MASS)
