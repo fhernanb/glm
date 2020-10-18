@@ -1,4 +1,7 @@
-# Example 4.7
+# -------------------------------------------------------------------------
+# Example 4.7 from Agresti (2015)
+# -------------------------------------------------------------------------
+
 url <- 'http://users.stat.ufl.edu/~aa/glm/data/Houses.dat'
 datos <- read.table(url, header=TRUE)
 head(datos, n=5)
