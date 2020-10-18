@@ -1,5 +1,7 @@
+# -------------------------------------------------------------------------
 # Ejemplo 7.1.7 del libro de Foundations of linear and GLM
 # de Agresti
+# -------------------------------------------------------------------------
 
 url <- "http://users.stat.ufl.edu/~aa/glm/data/Cancer.dat"
 Cancer <- read.table(url, header=TRUE)

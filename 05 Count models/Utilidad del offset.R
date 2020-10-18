@@ -1,6 +1,8 @@
+# -------------------------------------------------------------------------
 # En este ejemplo vamos a crear unos datos artificiales
 # y vamos a modificar la tasa media de exitos para simular
 # valores de Y que difieran en el intervalo de observacion.
+# -------------------------------------------------------------------------
 
 # Y representa el numero de pacientes contagiados por intervalo.
 # El intervalo sera: dia (1), semanana (7), quincena (15), mes (30)

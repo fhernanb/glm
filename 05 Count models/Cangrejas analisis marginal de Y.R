@@ -1,5 +1,7 @@
+# -------------------------------------------------------------------------
 # Ejemplo sobre cangrejas del libro de Foundations of linear and GLM
 # de Agresti
+# -------------------------------------------------------------------------
 
 url <- "http://users.stat.ufl.edu/~aa/glm/data/Crabs.dat"
 datos <- read.table(url, header=T)

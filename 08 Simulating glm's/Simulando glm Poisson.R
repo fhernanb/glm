@@ -4,7 +4,6 @@
 # -------------------------------------------------------------------------
 
 # Modelo: Y~Poisson(lambda) con log(lambda) = b0 + b1 * x
-# donde x ~ U(0, 1)
 # con b0=-1 y b1=2
 # la covariable x ~ U(0, 1)
 
@@ -28,7 +27,7 @@ ggplot(datos, aes(x=x, y=y)) +
   geom_point()
 
 # Ajustado el modelo
-mod <- glm(y ~ x, data=datos, family=poisson(link='log'))
+mod <- glm(y ~ x, data=datos, family=poisson(link="log"))
 summary(mod)
 coef(mod)     # Los valores estimados son cercanos a los verdaderos
 
