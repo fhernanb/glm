@@ -5,8 +5,8 @@
 # Ejemplo 1 ---------------------------------------------------------------
 # Encontrar los valores de x1 y x2 que solucionan el sistema:
 
-## 1*x1 - 1*x2  =  2 
-## 2*x1 + 2*x2  =  1
+## 1 * x1 - 1 * x2  =  2 
+## 2 * x1 + 2 * x2  =  1
 
 library(matlib)
 

@@ -1,6 +1,9 @@
 # El ejemplo de abajo corresponde al ejemplo de la ayuda de la
 # funcion nleqslv del paquete nleqslv
 
+# fun es una funcion a la que le ingresa un vector x de dos
+# elementos y ella entrega un vector y de dos elementos.
+
 fun <- function(x) {
   y <- numeric(2)
   y[1] <- x[1]^2 + x[2]^2 - 2
@@ -8,16 +11,16 @@ fun <- function(x) {
   y
 }
 
-# Una prueba
+# Una prueba iniciando de los valores x1=2 y x2=0.5
 xstart <- c(2, 0.5)
-fstart <- fun(xstart)
-
-xstart # el inicio
-fstart # valor de fun en el inicio
+fun(xstart)
 
 # a solution is c(1,1)
 library(nleqslv)
-nleqslv(xstart, fun, control=list(btol=.01))
+nleqslv(x=xstart, 
+        fn=fun, 
+        method="Broyden",
+        control=list(btol=0.01))
 
 # comprobando
 fun(c(1, 1))
