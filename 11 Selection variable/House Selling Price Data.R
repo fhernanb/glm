@@ -1,14 +1,14 @@
-# -------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # En este ejemplo vamos a utilizar procedimientos para seleccionar
-# variables en un modelo.
+# variables en un modelo glm.
 #
-# Los datos corresponden al ejemplo 4.7 de Agresti (2015)
+# Los datos corresponden al ejemplo 4.7.3 de Agresti (2015)
 #
 # Nuestro modelo saturado sera: 
 # precio ~ Gamma(mu_i, phi)
 # 1 / mu_i ~ beds + baths + size + taxes + new + var_cuanti^2 + 
 #            algunas inter dobles
-# -------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Lo primero es cargar los datos
 url <- 'http://users.stat.ufl.edu/~aa/glm/data/Houses.dat'
@@ -40,34 +40,40 @@ mean(datos$price)
 
 # Backward del paquete MASS
 full_form <- formula(price ~ beds + baths + size + taxes + new +
-                       I(beds^2) + I(baths) + I(taxes)+
+                       #I(beds^2) + I(baths^2) + I(size^2) + I(taxes^2) +
                        beds * new + baths * new + size * new)
 
-full_mod <- glm(price ~ beds + baths + size + taxes + new +
-                  I(beds^2) + I(baths) + I(taxes)+
-                  beds * new + baths * new + size * new, 
-                data=datos, family="Gamma")
+full_mod <- glm(full_form, data=datos, family=Gamma(link="inverse"))
 
-# Pregunta: family="Gamma" == family=Gamma(link="inverse") ?????
+# Pregunta?????
+# Es lo mismo family="Gamma" y family=Gamma(link="inverse") ?
 
+# Aplicando backward
 library(MASS)  # Para poder usar la funcion stepAIC
 back_mod <- stepAIC(full_mod, trace=TRUE, k=2, direction="backward")
 back_mod$anova
 summary(back_mod)
 
-# Forward del paquete MASS
-library(MASS)  # Para poder usar la funcion stepAIC
+envel_gamma(back_mod)
+
+# Aplicando forward
 forw_mod <- stepAIC(naive_mod, trace=TRUE, k=2, direction="forward",
                     scope=full_form)
 forw_mod$anova
 summary(forw_mod)
 
-# Both  del paquete MASS
-library(MASS)  # Para poder usar la funcion stepAIC
+# Aplicando both
 both_mod <- stepAIC(naive_mod, trace=TRUE, k=2, direction="both",
                     scope=full_form)
 both_mod$anova
 summary(both_mod)
+
+# Resultados:
+# De los tres modelos, back tiene el menor AIC
+# Al comparar forward y both los modelos resultantes son iguales
+
+# Comparemos dos de los modelos
+anova(forw_mod, back_mod)
 
 # Comparemos los modelos back_mod y forw_mod
 fit.model <- back_mod
