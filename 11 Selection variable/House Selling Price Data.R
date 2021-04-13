@@ -40,10 +40,10 @@ mean(datos$price)
 
 # Backward del paquete MASS
 full_form <- formula(price ~ beds + baths + size + taxes + new +
-                       #I(beds^2) + I(baths^2) + I(size^2) + I(taxes^2) +
+                       I(beds^2) + I(baths^2) + I(size^2) + I(taxes^2) +
                        beds * new + baths * new + size * new)
 
-full_mod <- glm(full_form, data=datos, family=Gamma(link="inverse"))
+full_mod <- glm(full_form, data=datos, family=Gamma(link="log"))
 
 # Pregunta?????
 # Es lo mismo family="Gamma" y family=Gamma(link="inverse") ?
@@ -54,6 +54,7 @@ back_mod <- stepAIC(full_mod, trace=TRUE, k=2, direction="backward")
 back_mod$anova
 summary(back_mod)
 
+source("https://tinyurl.com/6ypxrz7c")
 envel_gamma(back_mod)
 
 # Aplicando forward

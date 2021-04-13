@@ -36,20 +36,29 @@ summary(mod)$dispersion
 
 # Funcion para generar obs de un glm gamma
 
-# Funcion para generar el dataframe
+# Funcion para generar el dataframe con los datos simulados
+# siguiendo el siguiente modelo:
+# y ~ gamma(mu, phi)
+# log(mu) = b0 + b1 * x
+# phi = valor
+# x ~ U(0, 1)
+
 gen_dat <- function(n, b0, b1, phi) {
-  x <- runif(n=n)
+  x <- runif(n=n, min=0, max=1)
   mu <- exp(b0 + b1 * x)
   y <- statmod::rinvgauss(n=n, mean=mu, disp=phi)
-  data.frame(y=y, x=x)
+  return(data.frame(y=y, x=x))
 }
 
-n <- 50
-phi <- 3
+n <- 50 # Vamos a simular muchas observaciones
+phi <- 3 # Valor de phi VERDADERO
 
+# Creando el dataset
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=phi)
-mod <- glm(y ~ x, data=datos, 
-           family=inverse.gaussian(link=log))
+head(datos, n=8)
+
+# Vamos a ajustar el modelo
+mod <- glm(y ~ x, data=datos, family=inverse.gaussian(link=log))
 
 # Maximum likelihood estimate
 deviance(mod)/length(datos$y)

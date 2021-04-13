@@ -16,18 +16,20 @@ fit.gamma <- glm(price ~ size + new + beds + size:new + size:beds,
 summary(fit.gamma)
 
 # Otros modelos
-fit.g1 <- glm(price ~ size+new+baths+beds, data=datos,
+fit.g1 <- glm(price ~ size + new + baths + beds, data=datos,
               family=Gamma(link=identity))
-fit.g2 <- glm(price~(size+new+baths+beds)^2, data=datos,
+fit.g2 <- glm(price ~ (size + new + baths + beds)^2, data=datos,
               family=Gamma(link=identity))
 
+# Comparando los dos modelos
 anova(fit.g1, fit.g2)
 
 summary(fit.g1)
 MASS::gamma.dispersion(fit.g1) # para obtener phi
 MASS::gamma.shape(fit.g1)      # para obtener k
 
-fit.g3 <- glm(price ~ size+new+size:new, data=datos,
+# Otro modelo
+fit.g3 <- glm(price ~ size + new + size:new, data=datos,
               family=Gamma(link=identity))
 
 summary(fit.g3)
@@ -36,7 +38,6 @@ MASS::gamma.shape(fit.g3)      # para obtener k
 
 par(mfrow=c(2, 2))
 plot(fit.g3)
-
 
 # Lo que viene NO esta en el libro, es mi propuesta -----------------------
 mod1 <- glm(price ~ 1, data=datos,
@@ -62,8 +63,8 @@ abline(a=0, b=1, lty="dashed", col="blue3")
 text(x=100, y=400, expression(rho(Y, hat(Y))==0.87))
 
 # Envelopes
-fit.model <- mod2
-source("https://www.ime.usp.br/~giapaula/envel_gama")
+source("https://tinyurl.com/6ypxrz7c")
+envel_gamma(mod2)
 
 # lrt test
 library(car)
