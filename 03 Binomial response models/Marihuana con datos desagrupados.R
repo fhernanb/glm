@@ -28,10 +28,14 @@ datos
 mod0 <- glm(resp ~ 1, family=binomial, data=datos)
 mod1 <- glm(resp ~ gender, family=binomial, data=datos)
 mod2 <- glm(resp ~ race, family=binomial, data=datos)
-mod <- glm(resp ~ gender + race, family=binomial, data=datos)
+mod3 <- glm(resp ~ gender + race, family=binomial, data=datos)
 
-# Comparing
-anova(fit0, fit1, fit2, fit3)
+# Tabla de resumen tradicional
+summary(mod3)
 
+# Comparando los modelos usando anova
+anova(mod0, mod1, mod2, mod3)
+
+# Comparando los modelos usando Anova
 library(car)
-Anova(fit3)
+Anova(mod3)

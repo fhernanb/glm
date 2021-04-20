@@ -1,47 +1,66 @@
 # Ejemplo de regresion logistica usando los datos medidas cuerpo
 
-# leyendo los datos
+# Leyendo los datos -------------------------------------------------------
 url <- "https://raw.githubusercontent.com/fhernanb/datos/master/medidas_cuerpo2"
 datos <- read.table(file=url, sep="\t", header=TRUE)
 head(datos, n=5)
 
-# creando y
-datos$y <- ifelse(datos$Sexo == 'M', 1, 0)
+# Haciendo algunas modificaciones -----------------------------------------
 
-# dibujando los datos
-with(datos, plot(y=jitter(y, amount=0.03), x=Peso, las=1, pch=20))
+# creando la variable Y usando ceros y unos.
+# Y=1 para hombre yt Y=0 para mujer
+library(dplyr)
+datos <- datos %>% mutate(y=case_when(Sexo == "M" ~ 1,
+                                      Sexo == "F" ~ 0))
+datos %>% head()
 
-# modificando el sexo
-datos$Sexo <- as.factor(datos$Sexo)
-levels(datos$Sexo)
+# Explorando y versus otras variables -------------------------------------
+library(ggplot2)
 
-# ajustando el modelo
-mod1 <- glm(y ~ Peso, data=datos, family=binomial(link='logit'))
-coef(mod1)
+ggplot(data=datos) + 
+  geom_point(mapping=aes(x=Peso, y=y, color=Sexo))
+
+
+# Ajustando el modelo -----------------------------------------------------
+mod <- glm(y ~ Peso, data=datos, family=binomial(link='logit'))
+summary(mod)
+coef(mod)
 
 # agregando la curva al diagrama de dispersion
 curva <- function(x) {
-  eta <- -35.239067 + 0.552851*x
-  probabi <- exp(eta) / (1 + exp(eta))
-  return(probabi)
+  eta <- -35.239067 + 0.552851 * x # predictor lineal
+  probabilidad <- exp(eta) / (1 + exp(eta))
+  return(probabilidad)
 }
 
-with(datos, plot(y=y, x=Peso, pch=20, las=1))
-grid()
-curve(curva, add=TRUE, col='blue', lwd=3)
+ggplot(data=datos) + 
+  geom_point(mapping=aes(x=Peso, y=y, color=Sexo)) +
+  geom_function(fun=curva, colour="black", lty="dashed")
 
 # Explorando el efecto de beta1 en pi y en log(pi/(1-pi))
+# supongamos dos personas, una de 63 y otra de 64 kilogramos
 x <- 63
-p1 <- predict(mod1, data.frame(Peso=x), type='response')
-p2 <- predict(mod1, data.frame(Peso=x+1), type='response')
+p1 <- predict(mod, data.frame(Peso=x), type='response')
+p2 <- predict(mod, data.frame(Peso=x+1), type='response')
 p1
 p2
+
+# Calculemos el odds para persona 1
 p1 / (1 - p1)
-exp(0.552851) * p1 / (1 - p1)
+
+# Calculemos el odds para persona 2 de dos formas diferentes
 p2 / (1 - p2)
+exp(0.552851) * p1 / (1 - p1) # esto es exp(beta) * odds persona 1
+
+# Calculemos la razon de odds
 (p1 / (1 - p1)) / (p2 / (1 - p2))
 
-0.57
-0.57
-0.57
-
+# Vamos a ilustrar los resultados anteriores con una figura
+ggplot(data=datos) + 
+  geom_point(mapping=aes(x=Peso, y=y, color=Sexo)) +
+  geom_function(fun=curva, colour="black", lty="dashed") + 
+  geom_segment(aes(x=x, y=0, xend=x, yend=p1), arrow=arrow(), col="blue") +
+  geom_segment(aes(x=x, y=p1, xend=45, yend=p1), arrow=arrow(), col="blue") +
+geom_segment(aes(x=x+1, y=0, xend=x+1, yend=p2), arrow=arrow(), col="blue") +
+  geom_segment(aes(x=x+1, y=p2, xend=45, yend=p2), arrow=arrow(), col="blue")
+  
