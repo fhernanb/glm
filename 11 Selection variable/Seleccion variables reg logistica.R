@@ -75,9 +75,9 @@ summary(mod_both)
 # Matriz de confusion y medidas de desempeno ------------------------------
 # Ver: https://en.wikipedia.org/wiki/Confusion_matrix
 
-y_hat <- predict(mod_back, newdata=datos, type="response")
+prob_hat <- predict(mod_back, newdata=datos, type="response")
 cut_off <- 0.5 # Lo decido yo
-y_hat <- ifelse(y_hat >= cut_off, "presence", "absence")
+y_hat <- ifelse(prob_hat >= cut_off, "presence", "absence")
 y_hat <- as.factor(y_hat)
 
 # Manual
