@@ -8,11 +8,21 @@ Gators$y <- factor(Gators$y, levels=c('O', 'F', 'I'))
 
 # Exploring the data
 table(Gators$y)
-barplot(table(Gators$y))
-with(Gators, boxplot(x ~ y, las=1, ylab='Length (mt)'))
+
+library(ggplot2)
+
+ggplot(Gators) +
+  geom_bar(aes(y), alpha=0.3, fill="lightblue", colour="black") +
+  labs(title="Diagrama de barras para el tipo de comida",
+       x="Tipo de comida", y="Frecuencia absoluta")
+
+ggplot(Gators) +
+  geom_boxplot(aes(x=y, y=x), alpha=0.3, fill="lightblue", colour="black") +
+  labs(title="Boxplot para la Longitud del cocodrilo por Tipo de comida",
+       x="Tipo de comida", y="Longitud (metros)")
 
 # Fitting the model
-library(VGAM) 
+library(VGAM)
 mod <- vglm(y ~ x, family=multinomial(refLevel="O"), data=Gators) 
 summary(mod)
 
@@ -26,7 +36,7 @@ mod@fitted.values
 predict(mod, newdata=data.frame(x=3.89), type='response')
 
 predict(mod, newdata=data.frame(x=3.89), type="link")
-predict(mod, newdata=data.frame(x=3.89), type="response")
+
 predict(mod, newdata=data.frame(x=3.89), type="terms")
 
 # para predecir la clase

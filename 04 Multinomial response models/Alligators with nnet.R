@@ -8,8 +8,18 @@ Gators$y <- factor(Gators$y, levels=c('O', 'F', 'I'))
 
 # Exploring the data
 table(Gators$y)
-barplot(table(Gators$y))
-with(Gators, boxplot(x ~ y, las=1, ylab='Length (mt)'))
+
+library(ggplot2)
+
+ggplot(Gators) +
+  geom_bar(aes(y), alpha=0.3, fill="lightblue", colour="black") +
+  labs(title="Diagrama de barras para el tipo de comida",
+       x="Tipo de comida", y="Frecuencia absoluta")
+
+ggplot(Gators) +
+  geom_boxplot(aes(x=y, y=x), alpha=0.3, fill="lightblue", colour="black") +
+  labs(title="Boxplot para la Longitud del cocodrilo por Tipo de comida",
+       x="Tipo de comida", y="Longitud (metros)")
 
 # Fitting the model
 library(nnet)
@@ -24,7 +34,9 @@ names(mod)
 mod$fitted.values
 
 # Predicting the class for alligator with x=3.89
-predict(mod, newdata=data.frame(x=3.89))
+predict(mod, newdata=data.frame(x=3.89), type="probs")
+
+predict(mod, newdata=data.frame(x=3.89), type="class")
 
 # My confusion table
 y_hat <- predict(mod)
@@ -36,6 +48,9 @@ library(caret)
 confusionMatrix(data=y_hat, reference=Gators$y)
 
 # Vamos a crear un clasificador adivinando
+# El argumento n es el numero de "adivinaciones"
+# pero usando la proporcion del tipo de comida
+
 adivinar <- function(n) {
   rtas <- sample(x=c('O', 'F', 'I'), size=n,
                  replace=TRUE, prob=c(8, 31, 20)/59)
@@ -46,12 +61,23 @@ adivinar(n=5)
 
 confusionMatrix(data=adivinar(n=59), reference=Gators$y)
 
-m <- 200
+# Vamos a repetir el proceso de adivinacion para conocer
+# como se distribuye el ACCURACY
+
+nrep <- 500
 accu <- NULL
-for (i in 1:m) {
+for (i in 1:nrep) {
   res <- confusionMatrix(data=adivinar(n=59), reference=Gators$y)
   accu[i] <- res$overall[["Accuracy"]]
 }
 
-plot(density(accu))
-abline(v=mean(accu), col='red', lty='dashed')
+# Vamos a crear un dataframe con las adivinaciones
+datos_adiv <- data.frame(accu)
+head(datos_adiv)
+
+library(ggplot2)
+
+ggplot(data=datos_adiv) +
+  geom_histogram(aes(accu), colour="tomato", fill="lemonchiffon") +
+  geom_vline(xintercept=mean(accu), colour="blue", lwd=1.3, lty="dashed") +
+  labs(title="Histograma con los Accuracy obtenidos adivinando")
