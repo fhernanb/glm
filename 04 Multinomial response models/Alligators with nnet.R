@@ -4,11 +4,11 @@
 
 url <- 'http://www.stat.ufl.edu/~aa/cat/data/Alligators.dat'
 Gators <- read.table(url, header=TRUE)
-Gators$y <- factor(Gators$y, levels=c('O', 'F', 'I')) 
+
+# Aqui vamos a usar como nivel de referencia "Invertebrates"
+Gators$y <- factor(Gators$y, levels=c('I', 'O', 'F')) 
 
 # Exploring the data
-table(Gators$y)
-
 library(ggplot2)
 
 ggplot(Gators) +
@@ -26,6 +26,8 @@ library(nnet)
 mod <- multinom(y ~ x, data=Gators)
 summary(mod)
 
+
+
 # Exploring the object mod
 class(mod)
 names(mod)
@@ -38,7 +40,7 @@ predict(mod, newdata=data.frame(x=3.89), type="probs")
 
 predict(mod, newdata=data.frame(x=3.89), type="class")
 
-# My confusion table
+# My confusion matrix
 y_hat <- predict(mod)
 tabla <- table(clasificacion=y_hat, real=Gators$y)
 tabla
