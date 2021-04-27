@@ -14,7 +14,8 @@ ideologia <- factor(ideologia,
 
 genero <- rep(c("Female", "Male"), times=c(383, 278))
 
-partido <- rep(c("Democ", "Repub", "Democ", "Repub"), times=c(248, 135, 159, 119)) 
+partido <- rep(c("Democ", "Repub", "Democ", "Repub"), 
+               times=c(248, 135, 159, 119)) 
 
 datos <- data.frame(genero, partido, ideologia)
 
