@@ -19,8 +19,18 @@ mod <- glm.nb(y ~ 1)
 summary(mod)
 
 # Las estimaciones
-exp(coef(mod))
-mod$theta
+exp(coef(mod)) # para mu
+mod$theta      # para k
+
+# Ajustando el modelo con gamlss
+library(gamlss)
+
+fit <- gamlss(y ~ 1, family=NBI)
+summary(fit)
+
+# Las estimaciones
+exp(coef(object=fit, what="mu"))        # para mu
+1/exp(coef(object=fit, what="sigma"))   # para k
 
 # Reto --------------------------------------------------------------------
 

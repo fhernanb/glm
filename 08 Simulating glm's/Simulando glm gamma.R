@@ -3,7 +3,7 @@
 # estiman los parametros del modelo
 # -------------------------------------------------------------------------
 
-# Modelo: Y~Gamma(mu, phi=dipsersion param) con log(mu) = b0 + b1 * x
+# Modelo: Y ~ Gamma(mu, phi=dipsersion param) con log(mu) = b0 + b1 * x
 # con b0=-1 y b1=1
 # la covariable x ~ U(0, 1)
 
@@ -24,7 +24,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 10
+n <- 100
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 

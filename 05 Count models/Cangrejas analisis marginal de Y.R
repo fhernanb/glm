@@ -8,8 +8,11 @@ datos <- read.table(url, header=T)
 head(datos)
 
 # Un poco de estadistica descriptiva
-barplot(table(datos$y), las=1, col='lightgreen',
-        xlab='Numero de satelites', ylab='Frecuencia')
+library(ggplot2)
+ggplot(datos, aes(x=y)) +
+  geom_bar(fill="lightgreen") +
+  labs(title="Diagrama de barras para el numero de satelites") +
+  xlab("Y") + ylab("Frecuencia absoluta")
 
 # Explorando la relacion entre la media y la varianza
 mean(datos$y)
