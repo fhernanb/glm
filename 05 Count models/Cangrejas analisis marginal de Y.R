@@ -48,5 +48,11 @@ histDist(y=y, family=ZINBI)
 # Comparando con el AIC = - 2 * logLik + k * npar -------------------------
 AIC(mod_pois, mod_negb, mod_zip, mod_zinb, k=2)
 
+# Vamos a explorar las distribuciones de forma automatica
+# sin nosotros mencionar las distribuciones
+
+prueba <- fitDist(y=y, type="counts")
+prueba$fits  # Casos exitosos
+prueba$fails # Casos fallidos
 
 
