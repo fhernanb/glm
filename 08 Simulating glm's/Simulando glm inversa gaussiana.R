@@ -45,16 +45,16 @@ legend("topright", legend=c("mu=2, disp=1", "mu=2, disp=2",
 # Estimacion sin covariables ----------------------------------------------
 
 # -------------------------------------------------------------------------
-# Modelo: Y~IG(mu, phi)
-# Parametro de localizacion: mu=2
-# Parametro de   dispersion: phi=2
+# Modelo: Y ~ IG(mu, phi)
+# Parametro de localizacion:  mu = 2
+# Parametro de   dispersion: phi = 2
 # -------------------------------------------------------------------------
 
 library(statmod) # Para acceder a la distribucion inv gaussiana
 
 mu <- 2
 phi <- 2
-y <- rinvgauss(n=3000, mean=mu, dispersion=phi)
+y <- rinvgauss(n=30, mean=mu, dispersion=phi)
 
 # Densidad empirica
 plot(density(y), lwd=2, col='tomato', main='Density')
@@ -86,7 +86,7 @@ summary(mod3)$dispersion   # estimacion de phi
 
 # -------------------------------------------------------------------------
 # Modelo: Y~IG(mu, phi) con log(mu) = b0 + b1 * x
-# con b0=-1 y b1=1
+# con b0 = -1 y b1 = 1
 # phi = 2
 # la covariable x ~ U(0, 1)
 # -------------------------------------------------------------------------

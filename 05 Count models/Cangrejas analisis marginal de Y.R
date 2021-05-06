@@ -48,8 +48,12 @@ histDist(y=y, family=ZINBI)
 # Comparando con el AIC = - 2 * logLik + k * npar -------------------------
 AIC(mod_pois, mod_negb, mod_zip, mod_zinb, k=2)
 
-# Vamos a explorar las distribuciones de forma automatica
-# sin nosotros mencionar las distribuciones
+# Explorando mejor ajuste con fitDist de gamlss ---------------------------
+
+# Vamos a explorar las distribuciones que mejor explican a Y
+# sin nosotros mencionar las distribuciones, solo vamos a decir
+# el dominio de Y: 
+# "realAll", "realline", "realplus", "real0to1", "counts", "binom"
 
 prueba <- fitDist(y=y, type="counts")
 prueba$fits  # Casos exitosos

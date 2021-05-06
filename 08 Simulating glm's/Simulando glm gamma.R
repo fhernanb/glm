@@ -4,12 +4,13 @@
 # -------------------------------------------------------------------------
 
 # Modelo: Y ~ Gamma(mu, phi=dipsersion param) con log(mu) = b0 + b1 * x
-# con b0=-1 y b1=1
+# con b0 = -1 y b1 = 1
 # la covariable x ~ U(0, 1)
 
 # Se va a usar la funcion rgamma_glm() y no rgamma()
 # porque la parametrizacion de la fdp de dgamma() no 
 # coincide con la fdp de los glm.
+
 rgamma_glm <- function(n, mu, phi) {
   x <- rgamma(n=n, shape=1/phi, scale=mu*phi)
   return(x)
@@ -24,7 +25,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 100
+n <- 500
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
