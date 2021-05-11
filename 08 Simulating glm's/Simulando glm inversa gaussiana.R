@@ -102,7 +102,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 100
+n <- 300
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
@@ -119,6 +119,16 @@ summary(mod)
 
 coef(mod)                 # estimacion de los betas
 summary(mod)$dispersion   # estimacion de phi
+
+# Analisis de residuales
+rp <- boot::glm.diag(mod)$rp  # Pearson residuals
+rd <- boot::glm.diag(mod)$rd  # Deviance residuals
+qr <- statmod::qresid(mod)    # Quantile residuals
+
+library(car) # Para construir un qqPlot especial
+qqPlot(x=rp, dist="norm", mean=0, sd=1)
+qqPlot(x=rd, dist="norm", mean=0, sd=1)
+qqPlot(x=qr, dist="norm", mean=0, sd=1)
 
 # Envelopes
 fit.model <- mod

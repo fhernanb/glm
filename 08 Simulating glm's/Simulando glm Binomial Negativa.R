@@ -59,6 +59,16 @@ printCoefmat(coef(summary(mod, dispersion=1)))
 # automatically that the resulting glm family should have 
 # dispersion equal to one.
 
+# Analisis de residuales
+rp <- boot::glm.diag(mod)$rp  # Pearson residuals
+rd <- boot::glm.diag(mod)$rd  # Deviance residuals
+qr <- statmod::qresid(mod)    # Quantile residuals
+
+library(car) # Para construir un qqPlot especial
+qqPlot(x=rp, dist="norm", mean=0, sd=1)
+qqPlot(x=rd, dist="norm", mean=0, sd=1)
+qqPlot(x=qr, dist="norm", mean=0, sd=1)
+
 # Envelopes
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_nbin")

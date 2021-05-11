@@ -25,7 +25,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 500
+n <- 150
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 
@@ -46,6 +46,16 @@ MASS:::gamma.shape.glm(mod) # para obtener k automaticamente
 
 # Para estimar phi manualmente
 sum((datos$y - fitted(mod))^2 / fitted(mod)^2) / (n-2)
+
+# Analisis de residuales
+rp <- boot::glm.diag(mod)$rp  # Pearson residuals
+rd <- boot::glm.diag(mod)$rd  # Deviance residuals
+qr <- statmod::qresid(mod)    # Quantile residuals
+
+library(car) # Para construir un qqPlot especial
+qqPlot(x=rp, dist="norm", mean=0, sd=1)
+qqPlot(x=rd, dist="norm", mean=0, sd=1)
+qqPlot(x=qr, dist="norm", mean=0, sd=1)
 
 # Envelopes
 fit.model <- mod

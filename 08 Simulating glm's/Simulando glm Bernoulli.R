@@ -24,6 +24,16 @@ mod <- glm(y ~ x, data=datos, family=binomial(link='logit'))
 summary(mod)
 coef(mod)     # Los valores estimados son cercanos a los verdaderos
 
+# Analisis de residuales
+rp <- boot::glm.diag(mod)$rp  # Pearson residuals
+rd <- boot::glm.diag(mod)$rd  # Deviance residuals
+qr <- statmod::qresid(mod)    # Quantile residuals
+
+library(car) # Para construir un qqPlot especial
+qqPlot(x=rp, dist="norm", mean=0, sd=1)
+qqPlot(x=rd, dist="norm", mean=0, sd=1)
+qqPlot(x=qr, dist="norm", mean=0, sd=1)
+
 # Reto --------------------------------------------------------------------
 
 # Explorar el efecto del tamano de muestra n en las estimaciones.
