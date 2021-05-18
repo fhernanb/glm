@@ -1,8 +1,19 @@
+# Los ejemplos aqui mostrados provienen de la ayuda de la
+# funcion rsq
+
 library(rsq)
+
 # Poisson Models
-sdata <- simglm(family="poisson",lambda=4)
-fitf <- glm(y~x.1+x.2+x.3,family=poisson,data=sdata$yx)
+
+# Vamos a simular datos de un glm poisson
+
+sdata <- simglm(family="poisson", lambda=4)
+fitf <- glm(y ~ x.1 + x.2 + x.3, family=poisson, data=sdata$yx)
 rsq(fitf) # type='v'
+
+fitf <- glm(y ~ x.2 + x.3, family=poisson, data=sdata$yx)
+envelope(fitf)
+
 fitr <- glm(y~x.2+x.3,family=poisson,data=sdata$yx)
 rsq(fitr) # type='v'
 rsq(fitr,type='kl')
@@ -12,6 +23,7 @@ pcor(fitr) # type='v'
 pcor(fitr,type='kl')
 pcor(fitr,type='lr')
 pcor(fitr,type='n')
+
 # Gamma models with shape=100
 n <- 50
 sdata <- simglm(family="Gamma",lambda=4,n=n)

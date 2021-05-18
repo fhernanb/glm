@@ -69,13 +69,9 @@ qqPlot(x=rp, dist="norm", mean=0, sd=1)
 qqPlot(x=rd, dist="norm", mean=0, sd=1)
 qqPlot(x=qr, dist="norm", mean=0, sd=1)
 
-# Envelopes
-fit.model <- mod
-source("https://www.ime.usp.br/~giapaula/envel_nbin")
-
-# Usando los Quantile residuals de Dunn & Smith (1996)
-qr <- statmod::qresiduals(mod)
-car::qqPlot(qr, distribution="norm", pch=21, col="tomato")
+# Envelope
+library(glmtoolbox)
+envelope(mod)
 
 # -------------------------------------------------------------------------
 # Ajustando un modelo Poisson que es incorrecto, vamos a ver 

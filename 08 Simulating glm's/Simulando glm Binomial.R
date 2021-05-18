@@ -1,7 +1,7 @@
 # En este ejemplo se simulan datos de un glm y se 
 # estiman los parametros del modelo
 
-# Modelo: Y~Binomial(m=10, pi) con logit(pi) = b0 + b1 * x
+# Modelo: Y ~ Binomial(m=10, pi) con logit(pi) = b0 + b1 * x
 # con b0=-1 y b1=1
 
 # Funcion para generar los datos
@@ -24,12 +24,14 @@ barplot(table(datos$y))
 # Reto --------------------------------------------------------------------
 
 # Ajustar el modelo para recuperar los parametros
-# cambie zzz por cbind(algo, algo)
-# consulte lo que debe ser el algo.
+m <- rep(10, times=n) # el valor maximo de la binomial de interes
+mod <- glm(cbind(y, m-y) ~ x, data=datos, family=binomial)
 
-mod <- glm(zzz ~ x, data=datos, family=binomial(link='logit'))
 summary(mod)
 coef(mod)
+
+# Envelope
+envelope(mod)
 
 # Reto --------------------------------------------------------------------
 

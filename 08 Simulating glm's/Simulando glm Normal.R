@@ -16,7 +16,7 @@ gen_dat <- function(n, b0, b1, sd) {
 }
 
 # Generando los datos
-n <- 100
+n <- 50
 datos <- gen_dat(n=n, b0=-1, b1=1, sd=3)
 head(datos)
 
@@ -30,6 +30,7 @@ ggplot(datos, aes(x=x, y=y)) +
 mod <- glm(y ~ x, data=datos, family=gaussian(link='inverse'))
 summary(mod)
 coef(mod)     # Los valores estimados son cercanos a los verdaderos
+summary(mod)$dispersion # Para obtener sigma^2
 
 # Analisis de residuales
 rp <- boot::glm.diag(mod)$rp  # Pearson residuals
@@ -44,6 +45,9 @@ qqPlot(x=qr, dist="norm", mean=0, sd=1)
 # Envelopes
 fit.model <- mod
 source("https://www.ime.usp.br/~giapaula/envel_norm")
+
+# Envelope
+envelope(mod)
 
 # Reto --------------------------------------------------------------------
 

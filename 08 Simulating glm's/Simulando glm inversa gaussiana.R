@@ -130,6 +130,13 @@ qqPlot(x=rp, dist="norm", mean=0, sd=1)
 qqPlot(x=rd, dist="norm", mean=0, sd=1)
 qqPlot(x=qr, dist="norm", mean=0, sd=1)
 
-# Envelopes
+# Envelope
+library(SuppDists)
+envelope(mod)
+
+# Envelope de Alvarenga
 fit.model <- mod
+attach(datos)
 source("https://www.ime.usp.br/~giapaula/envel_ninv")
+
+

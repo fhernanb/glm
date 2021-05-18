@@ -34,6 +34,9 @@ qqPlot(x=rp, dist="norm", mean=0, sd=1)
 qqPlot(x=rd, dist="norm", mean=0, sd=1)
 qqPlot(x=qr, dist="norm", mean=0, sd=1)
 
+# Envelope
+envelope(mod)
+
 # Reto --------------------------------------------------------------------
 
 # Explorar el efecto del tamano de muestra n en las estimaciones.
