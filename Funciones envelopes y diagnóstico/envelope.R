@@ -1,5 +1,5 @@
 
-envelope <- function(mod, rep=100, conf=0.95, plot.it=TRUE) {
+envelope <- function(mod, rep=100, conf=0.95) {
   
   X <- model.matrix(mod)
   n <- nrow(X)
@@ -21,12 +21,13 @@ envelope <- function(mod, rep=100, conf=0.95, plot.it=TRUE) {
            Gamma = MASS::gamma.dispersion(fit),
            inverse.gaussian = summary(fit)$dispersion,
            poisson = 1,
-           neg_bin = 1/fit$theta,
+           neg_bin = 1 / fit$theta,
            binomial = 1)
   }
   
   phi <- phi_hat_glm(mod)
-  td <- resid(mod, type="deviance") * sqrt(phi/(1-h))
+  # To obtain the residual deviance
+  dev_res <- resid(mod, type="deviance") * sqrt(phi/(1-h))
   
   weights <- mod$prior.weights
   if(is.null(mod$offset)) offs <- rep(0, n) else offs <- mod$offset
@@ -56,23 +57,17 @@ envelope <- function(mod, rep=100, conf=0.95, plot.it=TRUE) {
     }
   }
   
-  #return(e)
-  
-  e1 <- numeric(n)
-  e2 <- numeric(n)
-
-  for(i in 1:n) {
-    eo <- sort(e[i, ])
-    e1[i] <- (eo[2] + eo[3])/2
-    e2[i] <- (eo[97] + eo[98])/2
-    }
+  # With this instruction we obtain the envelopes
+  e1 <- apply(X=e, MARGIN=1, FUN=quantile, probs=(1-conf)/2)
+  e2 <- apply(X=e, MARGIN=1, FUN=quantile, probs=1-(1-conf)/2)
 
   med <- apply(e, 1, mean)
-  faixa <- range(td, e1, e2)
+  faixa <- range(dev_res, e1, e2)
   list(e1, e2)
+  
   par(pty="s")
-  qqnorm(td, xlab="Percentil da N(0,1)", las=1,
-         ylab="Componente do Desvio", ylim=faixa, pch=16, main="")
+  qqnorm(dev_res, xlab="Quantiles of N(0,1)", las=1,
+         ylab="Deviance", ylim=faixa, pch=16, main="")
   par(new=TRUE)
   #
   qqnorm(e1,axes=F,xlab="",ylab="",type="l",ylim=faixa,lty=1, main="")
@@ -83,4 +78,3 @@ envelope <- function(mod, rep=100, conf=0.95, plot.it=TRUE) {
 
 }
 
-envelope(mod)

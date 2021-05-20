@@ -29,8 +29,9 @@ ggplot(datos, aes(x=x, y=y)) +
 # Ajustado el modelo
 mod <- glm(y ~ x, data=datos, family=gaussian(link='inverse'))
 summary(mod)
-coef(mod)     # Los valores estimados son cercanos a los verdaderos
-summary(mod)$dispersion # Para obtener sigma^2
+
+coef(mod) # Para obtener los betas
+summary(mod)$dispersion # Para obtener phi=sigma^2
 
 # Analisis de residuales
 rp <- boot::glm.diag(mod)$rp  # Pearson residuals

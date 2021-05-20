@@ -21,6 +21,7 @@ summary(mod)
 # Las estimaciones
 exp(coef(mod)) # para mu
 mod$theta      # para k
+1 / mod$theta  # para phi
 
 # Ajustando el modelo con gamlss
 library(gamlss)

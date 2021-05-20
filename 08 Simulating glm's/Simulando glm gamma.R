@@ -25,7 +25,7 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 150
+n <- 150000
 datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
 head(datos)
 

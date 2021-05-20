@@ -1,14 +1,14 @@
-
-
-phi_hat_glm <- function(mod) {
-  if (substr(mod$family$family, start=1, stop=3) == "Neg")
-    mod$family$family <- "neg_bin"
-  switch(mod$family$family,
-         gaussian = summary(mod)$dispersion,
-         Gamma = MASS::gamma.dispersion(mod),
-         inverse.gaussian = summary(mod)$dispersion,
+# This is an auxiliar function to obtain the phi
+# value of the dispersion parameter
+phi_hat_glm <- function(fit) {
+  if (substr(fit$family$family, start=1, stop=3) == "Neg")
+    fit$family$family <- "neg_bin"
+  switch(fit$family$family,
+         gaussian = summary(fit)$dispersion,
+         Gamma = MASS::gamma.dispersion(fit),
+         inverse.gaussian = summary(fit)$dispersion,
          poisson = 1,
-         neg_bin = 1/mod$theta,
+         neg_bin = 1 / fit$theta,
          binomial = 1)
 }
 
@@ -31,12 +31,12 @@ rgamma_glm <- function(n, mu, phi) {
   return(x)
 }
 
-y <- rgamma_glm(n=8000, mu=170, phi=5)
+y <- rgamma_glm(n=800, mu=170, phi=5)
 mod <- glm(y ~ 1, family=Gamma)
 
 phi_hat_glm(mod)
 
-# Inverse gaussian case
+# Negative binomial case
 phi <- 2
 y <- rnbinom(n=800, mu=7, size=1/phi)
 library(MASS)
