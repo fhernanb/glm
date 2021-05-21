@@ -42,3 +42,4 @@ influencePlot(mod)
 qqPlot(rstudent(mod))
 qqPlot(rstandard(mod))
 
+

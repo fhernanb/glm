@@ -1,6 +1,11 @@
+# La siguiente funcion permite crear envelopes
+# para modelos creados con glm( )
 
-envelope <- function(mod, rep=100, conf=0.95) {
+envelope <- function(mod, rep=100, conf=0.95, ...) {
   
+  if (! is(mod, 'glm')) stop("The model is not a glm object")
+  
+  # To obtain some useful quantities
   X <- model.matrix(mod)
   n <- nrow(X)
   p <- ncol(X)
@@ -26,8 +31,9 @@ envelope <- function(mod, rep=100, conf=0.95) {
   }
   
   phi <- phi_hat_glm(mod)
-  # To obtain the residual deviance
-  dev_res <- resid(mod, type="deviance") * sqrt(phi/(1-h))
+  
+  # To obtain the standardised deviance residual
+  tDi <- resid(mod, type="deviance") / sqrt(phi*(1-h))
   
   weights <- mod$prior.weights
   if(is.null(mod$offset)) offs <- rep(0, n) else offs <- mod$offset
@@ -51,7 +57,7 @@ envelope <- function(mod, rep=100, conf=0.95) {
       H <- sqrt(W)%*%X%*%H%*%t(X)%*%sqrt(W)
       h <- diag(H)
       phi <- phi_hat_glm(fit)
-      ei  <- resid(fit, type="deviance")*sqrt(phi/(1-h))
+      ei  <- resid(fit, type="deviance") / sqrt(phi*(1-h))
       e[, i] <- sort(ei)
       i <- i + 1
     }
@@ -62,12 +68,12 @@ envelope <- function(mod, rep=100, conf=0.95) {
   e2 <- apply(X=e, MARGIN=1, FUN=quantile, probs=1-(1-conf)/2)
 
   med <- apply(e, 1, mean)
-  faixa <- range(dev_res, e1, e2)
+  faixa <- range(tDi, e1, e2)
   list(e1, e2)
   
   par(pty="s")
-  qqnorm(dev_res, xlab="Quantiles of N(0,1)", las=1,
-         ylab="Deviance", ylim=faixa, pch=16, main="")
+  qqnorm(tDi, xlab="Quantiles of N(0,1)", las=1,
+         ylab="Deviance", ylim=faixa, pch=16, ...)
   par(new=TRUE)
   #
   qqnorm(e1,axes=F,xlab="",ylab="",type="l",ylim=faixa,lty=1, main="")
