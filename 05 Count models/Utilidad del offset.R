@@ -32,12 +32,10 @@ betas
 mean((betas - coef(mod1))^2) # Error cuadratico medio
 
 # Correct model using offset ----------------------------------------------
-mod2 <- glm(y ~ x, family=poisson(link="log"), 
-            offset=log(intervalo))
+mod2 <- glm(y ~ x, family=poisson(link="log"), offset=log(intervalo))
 coef(mod2)
 betas
 mean((betas - coef(mod2))^2) # Error cuadratico medio
-
 
 # Tentacion, no lo haga por favor -----------------------------------------
 mod3 <- glm(y/intervalo ~ x, family=poisson(link="log"))
@@ -53,5 +51,4 @@ coef(mod4, what="mu")
 mod5 <- gamlss(y ~ x + offset(log(intervalo)), family=PO) # Asi si
 coef(mod5, what="mu")
 coef(mod2)
-betas
 
