@@ -14,19 +14,12 @@ y
 library(matlib)
 showEqn(A=X, b=y)
 
-
 # Para obtener el rango de X
 qr(X)$rank
 
 # Para obtener el vector beta
 try(solve(t(X) %*% X) %*% t(X) %*% matrix(y, ncol=1))
-try(solve(t(X) %*% X)) # aqui esta el error)
-
-
-
-
-
-
+try(solve(t(X) %*% X)) # aqui esta el error
 
 # Usando generalizada inversa
 library(MASS)
