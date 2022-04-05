@@ -32,6 +32,20 @@ fun1(betas=c(-1.5144535, 0.5951344))
 # en otras palabras, log(mu_i) = -1.51 + 0.60 x
 # en otras palabras,     mu_i  = exp(-1.51 + 0.60 x)
 
+# Mi funcion de logvero
+y <- c(4, 3, 1)
+x <- c(5, 4, 3)
+
+my_loglik <- function(beta) {
+  b0 <- beta[1]
+  b1 <- beta[2]
+  eta <- b0 + b1 * x
+  mu <- exp(eta)
+  sum(dpois(x=y, lambda=mu, log=TRUE))
+}
+
+my_loglik(res$x)
+
 # Super Reto --------------------------------------------------------------
 
 # Como se podria modificar la funcion fun1 para que use muestras con
