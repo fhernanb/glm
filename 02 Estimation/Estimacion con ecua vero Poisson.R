@@ -19,13 +19,19 @@ fun1(betas=c(-1, -5)) # upss, queriamos obtener (0, 0)
 fun1(betas=c(-1, 2))  # upss, queriamos obtener (0, 0)
 
 # Ejemplo con 3 datos -----------------------------------------------------
-y <- c(4, 3, 1)
-x <- c(5, 4, 3)
 
 library(nleqslv)
 res <- nleqslv(x=c(0, 0), fn=fun1, method="Newton",
                control=list(btol=0.01))
 res
+
+# Verificando los resultados de nleqslv
+
+fun1(betas=c(-1.5144535, 0.5951344))
+
+# Lo anterior significa que beta0^ = -1.5144535 y beta1^ = 0.5951344
+# en otras palabras, log(mu_i) = -1.51 + 0.60 x
+# en otras palabras,     mu_i  = exp(-1.51 + 0.60 x)
 
 # Super Reto --------------------------------------------------------------
 
