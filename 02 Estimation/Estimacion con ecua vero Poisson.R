@@ -3,7 +3,6 @@
 
 # El enunciado de este ejercicio esta en la pag 125 del libro, reto 1
 
-
 # Equation ----------------------------------------------------------------
 fun1 <- function(betas) {
   b0 <- betas[1]
@@ -27,8 +26,6 @@ library(nleqslv)
 res <- nleqslv(x=c(0, 0), fn=fun1, method="Newton",
                control=list(btol=0.01))
 res
-
-
 
 # Super Reto --------------------------------------------------------------
 
