@@ -13,13 +13,12 @@ fun1 <- function(betas) {
   z
 }
 
-# Exploremos fun
+# Busquemos los valores de beta0 y beta1 a ojo
 fun1(betas=c(1, 5))   # upss, queriamos obtener (0, 0)
 fun1(betas=c(-1, -5)) # upss, queriamos obtener (0, 0)
 fun1(betas=c(-1, 2))  # upss, queriamos obtener (0, 0)
 
-# Ejemplo con 3 datos -----------------------------------------------------
-
+# Hagamos al optimizacion de la siguiente manera
 library(nleqslv)
 res <- nleqslv(x=c(0, 0), fn=fun1, method="Newton",
                control=list(btol=0.01))
@@ -35,10 +34,11 @@ fun1(betas=c(-1.5144535, 0.5951344))
 
 # Super Reto --------------------------------------------------------------
 
-# Como se podria modificar la funcion fun1 para que use muestras con mas obs
-# pero sin tener que escribir termino a termino en z[1] y z[2]
+# Como se podria modificar la funcion fun1 para que use muestras con
+# con muchas observaciones 
+# pero sin tener que escribir termino a termino en z[1] y z[2]???
 
-# Cambiar ___ por la instruccion correcta
+# Su tare consiste en cambiar ___ por la instruccion correcta
 
 y <- c(4, 3, 1)
 x <- c(5, 4, 3)
@@ -57,5 +57,3 @@ library(nleqslv)
 res <- nleqslv(x=c(0, 0), fn=fun2, method="Newton",
                control=list(btol=0.01))
 res
-
-
