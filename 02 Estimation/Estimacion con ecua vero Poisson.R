@@ -29,8 +29,8 @@ res
 fun1(betas=c(-1.5144535, 0.5951344))
 
 # Lo anterior significa que beta0^ = -1.5144535 y beta1^ = 0.5951344
-# en otras palabras, log(mu_i) = -1.51 + 0.60 x
-# en otras palabras,     mu_i  = exp(-1.51 + 0.60 x)
+# en otras palabras, log(mu_i)^ = -1.51 + 0.60 x
+# en otras palabras,     mu_i^  = exp(-1.51 + 0.60 x)
 
 # Mi funcion de logvero
 y <- c(4, 3, 1)
@@ -57,7 +57,7 @@ my_loglik(res$x)
 y <- c(4, 3, 1)
 x <- c(5, 4, 3)
 
-fun2 <- function(betas) {
+fun2 <- function(betas, x, y) {
   b0 <- betas[1]
   b1 <- betas[2]
   z <- numeric(2)
