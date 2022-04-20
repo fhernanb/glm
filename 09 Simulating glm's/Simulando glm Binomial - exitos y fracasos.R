@@ -19,7 +19,7 @@ datos <- gen_dat(n=n, b0=-1, b1=1)
 head(datos)
 
 # Curioseando los valores de y
-barplot(table(datos$y))
+barplot(table(datos$y), xlab="Y", ylab="Frecuencia", las=1)
 
 # Reto --------------------------------------------------------------------
 
