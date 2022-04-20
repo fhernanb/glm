@@ -10,7 +10,7 @@ y  <- rnorm(10)
 x4 <- y + 5 # this will make a nice significant variable to test our code
 (mydata <- as.data.frame(cbind(x1,x2,x3,x4,y)))
 
-model <- glm(formula=y~x1+x2+x3+x4,data=mydata)
+model <- glm(formula=y~x1+x2+x3+x4, data=mydata)
 
 toselect.x <- summary(model)$coeff[-1,4] < 0.05 # credit to kith
 
