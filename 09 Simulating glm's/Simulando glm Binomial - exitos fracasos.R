@@ -14,7 +14,7 @@ gen_dat <- function(n, b0, b1) {
 }
 
 # Generando los datos
-n <- 100
+n <- 300
 datos <- gen_dat(n=n, b0=-1, b1=1)
 head(datos)
 
@@ -26,12 +26,12 @@ barplot(table(datos$y), xlab="Y", ylab="Frecuencia", las=1)
 # Ajustar el modelo para recuperar los parametros
 m <- rep(10, times=n) # el valor maximo de la binomial de interes
 mod <- glm(cbind(y, m-y) ~ x, data=datos, family=binomial)
-
 summary(mod)
-coef(mod)
+coef(mod)   # Los valores estimados son cercanos a los verdaderos
 
 # Envelope
-envelope(mod)
+#source("08 Envelopes/envelope.R")
+#envelope(mod)
 
 # Reto --------------------------------------------------------------------
 
