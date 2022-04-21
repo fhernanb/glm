@@ -7,7 +7,7 @@
 
 # Funcion para generar los datos
 gen_dat <- function(n, b0, b1) {
-  x <- runif(n=n)
+  x <- runif(n=n, min=0, max=1)
   eta <- b0 + b1 * x
   pi <- exp(eta) / (1 + exp(eta))
   y <- rbinom(n=n, size=1, prob=pi)
@@ -15,7 +15,7 @@ gen_dat <- function(n, b0, b1) {
 }
 
 # Generando los datos
-n <- 300
+n <- 30
 datos <- gen_dat(n=n, b0=-1, b1=1)
 head(datos)
 
