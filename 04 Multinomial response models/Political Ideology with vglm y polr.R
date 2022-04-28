@@ -4,19 +4,25 @@
 
 # Vamos a crear los datos desagrupados, pero lo vamos a hacer manualmente
 
+# La variable respuesta
 ideolo <- c("Muy lib", "Algo lib", "Mod", "Algo conser", "Muy conser")
 ideologia <- rep(rep(ideolo, times=4), 
-                 times=c(25, 105, 86, 28, 4, 0, 5, 15, 83, 32, 
-                         20, 73, 43, 20, 3, 0, 1, 14, 72, 32))
+                 times=c(25, 105, 86, 28, 4, 
+                         0, 5, 15, 83, 32, 
+                         20, 73, 43, 20, 3, 
+                         0, 1, 14, 72, 32))
 ideologia <- factor(ideologia, 
                     ordered = TRUE,
                     levels=ideolo)
 
+# Una covariable
 genero <- rep(c("Female", "Male"), times=c(383, 278))
 
+# Otra covariable
 partido <- rep(c("Democ", "Repub", "Democ", "Repub"), 
                times=c(248, 135, 159, 119)) 
 
+# Vamos a crear el marco de datos
 datos <- data.frame(genero, partido, ideologia)
 
 head(datos)
@@ -27,7 +33,8 @@ str(datos)
 library(VGAM)
 
 fit1 <- vglm(ideologia ~ partido + genero,
-             family=cumulative(link=logitlink, parallel=TRUE), data=datos)
+             family=cumulative(link=logitlink, parallel=TRUE), 
+             data=datos)
 
 summary(fit1)
 
@@ -36,7 +43,9 @@ class(fit1)
 # Ajustando el modelo con polr
 library(MASS)
 
-fit2 <- polr(ideologia ~ partido + genero, data=datos) 
+fit2 <- polr(ideologia ~ partido + genero,
+             method="logistic",
+             data=datos) 
 
 summary(fit2)
 
