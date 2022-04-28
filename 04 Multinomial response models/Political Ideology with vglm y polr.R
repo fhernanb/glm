@@ -29,6 +29,9 @@ head(datos)
 
 str(datos)
 
+# Voy a salvar el marco de datos para luego usar en Python
+write.table(datos, file = "political_ideology.txt", sep = "\t")
+
 # Ajustando el modelo con vglm
 library(VGAM)
 
