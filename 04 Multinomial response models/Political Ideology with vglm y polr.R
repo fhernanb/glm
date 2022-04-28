@@ -12,7 +12,7 @@ ideologia <- rep(rep(ideolo, times=4),
                          20, 73, 43, 20, 3, 
                          0, 1, 14, 72, 32))
 ideologia <- factor(ideologia, 
-                    ordered = TRUE,
+                    ordered=TRUE,
                     levels=ideolo)
 
 # Una covariable
