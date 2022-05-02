@@ -5,7 +5,7 @@
 # Generando los datos
 mu <- 5
 k <- 3
-n <- 100
+n <- 10000
 y <- rnbinom(n=n, mu=mu, size=k)
 
 # Explorando los datos

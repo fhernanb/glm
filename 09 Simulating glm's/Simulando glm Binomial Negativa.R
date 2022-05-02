@@ -28,7 +28,7 @@ gen_dat <- function(n, b0, b1, k) {
 }
 
 # Generando los datos
-n <- 100
+n <- 80
 datos <- gen_dat(n=n, b0=-1, b1=2, k=3)
 head(datos)
 barplot(table(datos$y))

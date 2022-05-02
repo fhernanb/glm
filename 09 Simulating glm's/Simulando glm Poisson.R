@@ -42,6 +42,7 @@ qqPlot(x=rd, dist="norm", mean=0, sd=1)
 qqPlot(x=qr, dist="norm", mean=0, sd=1)
 
 # Envelope
+library(glmtoolbox)
 envelope(mod)
 
 # Reto --------------------------------------------------------------------
