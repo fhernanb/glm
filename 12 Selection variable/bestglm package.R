@@ -35,6 +35,7 @@ Xy <- cbind(X, y)
 Xy <- as.data.frame(Xy)
 head(Xy) # para explorar el data frame
 
+# Esta es la forma de usar bestglm
 best_mods <- bestglm(Xy, 
                      IC="AIC", 
                      method="exhaustive",

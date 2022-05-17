@@ -54,8 +54,10 @@ back_mod <- stepAIC(full_mod, trace=TRUE, k=2, direction="backward")
 back_mod$anova
 summary(back_mod)
 
-source("https://tinyurl.com/6ypxrz7c")
-envel_gamma(back_mod)
+
+# Envelope
+library(glmtoolbox)
+envelope(back_mod)
 
 # Aplicando forward
 forw_mod <- stepAIC(naive_mod, trace=TRUE, k=2, direction="forward",
@@ -76,12 +78,10 @@ summary(both_mod)
 # Comparemos dos de los modelos
 anova(forw_mod, back_mod)
 
-# Comparemos los modelos back_mod y forw_mod
-fit.model <- back_mod
-source("https://www.ime.usp.br/~giapaula/envel_gama")
-
-fit.model <- forw_mod
-source("https://www.ime.usp.br/~giapaula/envel_gama")
+# Envelopes
+library(glmtoolbox)
+envelope(back_mod)
+envelope(forw_mod)
 
 # Vamos a calcular back_media y forw_media
 # Lo que se muestra a continuacion se pudo haber obtenido 
