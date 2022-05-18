@@ -1,10 +1,11 @@
 # En este script vamos a simular varios glm utilizando la funcion
-# simglm del paquete rsq.
-# Se van a ajustar tres modelos:
-# Modelo bueno 1: con x1
-# Modelo malo  2: con x1 y otras x's
-# Modelo malo  3: solo con otras x's
+# simglm del paquete rsq. Esta funcion simula datos en los cuales
+# solo la variable x1 fue usada para generar Y, las otras x's son basura.
 
+# Se van a ajustar tres modelos:
+# Modelo bueno       1: solo con x1
+# Modelo medio malo  2: con x1 y otras x's
+# Modelo super malo  3: solo con otras x's
 
 # Poisson -----------------------------------------------------------------
 library(rsq)

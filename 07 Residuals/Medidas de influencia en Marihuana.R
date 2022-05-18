@@ -42,4 +42,15 @@ influencePlot(mod)
 qqPlot(rstudent(mod))
 qqPlot(rstandard(mod))
 
+# Usando los envelopes de Williams (1987)
+# revisar la seccion 1.9.9 pag 65 para entender la construccion
+browseURL("https://www.ime.usp.br/~giapaula/texto_2013.pdf")
+
+library(glmtoolbox)
+envelope(mod)
+
+# Quantile residuals
+library(statmod)
+qr <- qresiduals(mod)
+car::qqPlot(qr, distribution="norm")
 

@@ -34,7 +34,6 @@ plot(x=weight, y, yaxt='n', pch=20, main='Modelo nulo')
 axis(side=2, at=0:1, labels=0:1, las=1)
 points(x=weight, y=mod_nul$fitted.values, type='l', col='blue')
 
-
 # Residuals ---------------------------------------------------------------
 
 # leer leer y leer
@@ -85,12 +84,11 @@ mis_res <- cbind(deviance=residuals(mod, type='deviance'),
 
 round(mis_res, digits=3)
 
-
 # Graficos de diagnostico -------------------------------------------------
 
 # Usando los envelopes de Williams (1987)
-fit.model <- mod
-source("https://www.ime.usp.br/~giapaula/envel_bino")
+library(glmtoolbox)
+envelope(mod)
 
 # Usando los Quantile residuals de Dunn & Smith (1996)
 qr <- statmod::qresiduals(mod)

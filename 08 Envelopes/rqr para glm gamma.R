@@ -25,8 +25,8 @@ gen_dat <- function(n, b0, b1, phi) {
 }
 
 # Generando los datos
-n <- 100
-datos <- gen_dat(n=n, b0=-1, b1=1, phi=2)
+n <- 1000
+datos <- gen_dat(n=n, b0=-1, b1=1, phi=0.0002)
 head(datos)
 
 # Exploremos los datos
@@ -45,3 +45,10 @@ qr <- qresid(mod)
 
 qqnorm(qr)
 qqline(qr)
+
+# Sera que las medias estimadas logran acompanar los valores reales de Y?
+mu_hat <- fitted(mod)
+plot(x=datos$y, y=mu_hat)
+abline(a=0, b=1, col="tomato", lty="dashed", lwd=3)
+cor(datos$y, mu_hat)
+

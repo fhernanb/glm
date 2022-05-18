@@ -1,5 +1,6 @@
 # This is an auxiliar function to obtain the phi
 # value of the dispersion parameter
+
 phi_hat_glm <- function(fit) {
   if (substr(fit$family$family, start=1, stop=3) == "Neg")
     fit$family$family <- "neg_bin"
@@ -11,7 +12,6 @@ phi_hat_glm <- function(fit) {
          neg_bin = 1 / fit$theta,
          binomial = 1)
 }
-
 
 # Normal case
 y <- rnorm(n=800, mean=170, sd=5)

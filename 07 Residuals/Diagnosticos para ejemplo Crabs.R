@@ -7,13 +7,12 @@ fit <- glm(y ~ width, family=binomial, data=Crabs)
 
 summary(fit)
 
-# Envelopes de Gilberto Alvarenga
+# Usando los envelopes de Williams (1987)
 # revisar la seccion 1.9.9 pag 65 para entender la construccion
 browseURL("https://www.ime.usp.br/~giapaula/texto_2013.pdf")
 
-fit.model <- fit
-attach(Crabs)
-source("https://www.ime.usp.br/~giapaula/envel_bino")
+library(glmtoolbox)
+envelope(fit)
 
 # Quantile residuals
 library(statmod)
