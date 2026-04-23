@@ -15,12 +15,12 @@ gen_dat <- function(n, b0, b1) {
 }
 
 # Generando los datos
-n <- 30
+n <- 200
 datos <- gen_dat(n=n, b0=-1, b1=1)
 head(datos)
 
 # Ajustado el modelo
-mod <- glm(y ~ x, data=datos, family=binomial(link='logit'))
+mod <- glm(y ~ x, data=datos, family=binomial(link="logit"))
 summary(mod)
 coef(mod)     # Los valores estimados son cercanos a los verdaderos
 
@@ -49,7 +49,7 @@ envelope(mod)
 n <- c(5, 10, 20, 40, 80, 160, 320, 640, 1280)
 nrep <- 100
 results <- matrix(NA, ncol=2, nrow=nrep*length(n))
-colnames(results) <- c('xxx', 'b1')
+colnames(results) <- c("xxx", "b1")
 dim(results) # para ver la dimension de la matriz donde se almacenaran
 
 for (i in n) {

@@ -2,11 +2,11 @@
 # Example 4.7 from Agresti (2015)
 # -------------------------------------------------------------------------
 
-url <- 'http://users.stat.ufl.edu/~aa/glm/data/Houses.dat'
+url <- "https://raw.githubusercontent.com/fhernanb/glm/refs/heads/master/data_Agresti_2015/Houses.dat"
 datos <- read.table(url, header=TRUE)
 head(datos, n=5)
 
-pairs(datos[c('price','size','taxes')])
+pairs(datos[c("price","size","taxes")])
 
 # Modelo inv Gaussian -----------------------------------------------------
 with(datos, plot(density(price)))
@@ -57,7 +57,7 @@ Sizes <- round(Sizes, digits=0)
 library(statmod)
 for (i in Sizes) {
   curve(dinvgauss(x, mean=esp_precio(i), dispersion=0.0009083137),
-        from=0, to=1600, las=1, lwd=3, col='blue3',
+        from=0, to=1600, las=1, lwd=3, col="blue3",
         ylim=c(0, 0.03), xlab="Price", ylab="Densidad", 
         main=paste0("Distribucion Price con size = ", i))
   abline(v=esp_precio(i), col=gray(0.8), lty="dotted")
@@ -67,8 +67,8 @@ for (i in Sizes) {
 # Preguntas interesantes (estadistica elemental)
 
 # 1) Cual es el % de casas con size=4000 cuyo Precio < 500
-esp_precio(4000)
-pinvgauss(q=500, mean=748.5795, disp=0.0009083137)
+esp_precio(4000) # valor de mu^
+pinvgauss(q=500, mean=748.5795, disp=0.0009083137, lower.tail=TRUE)
 
 # 2) Cual es el % de casas con size=4000 cuyo Precio > 1000
 pinvgauss(q=500, mean=748.5795, disp=0.0009083137, lower.tail=FALSE)
@@ -77,8 +77,8 @@ pinvgauss(q=500, mean=748.5795, disp=0.0009083137, lower.tail=FALSE)
 qinvgauss(p=0.5, mean=748.5795, disp=0.0009083137)
 
 # Envelopes
-fit.model <- mod2
-source("https://www.ime.usp.br/~giapaula/envel_ninv")
+library(glmtoolbox)
+envelope(mod2)
 
 # lrt test
 library(car)
