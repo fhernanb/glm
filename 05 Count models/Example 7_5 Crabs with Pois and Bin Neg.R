@@ -7,7 +7,7 @@ datos <- read.table(url, header=TRUE)
 head(datos, n=5)
 
 # Histogram for the response variable y
-hist(datos$y)
+hist(datos$y, col="tomato")
 
 # Vamos a convertir las variables cualitativas en factores
 datos$color <- factor(datos$color)
