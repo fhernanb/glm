@@ -10,8 +10,11 @@ head(datos, n=5)
 hist(datos$y, col="tomato")
 
 # Vamos a convertir las variables cualitativas en factores
-datos$color <- factor(datos$color)
-datos$spine <- factor(datos$spine)
+library(dplyr)
+datos <- datos %>% mutate(color = as.factor(color),
+                          spine = as.factor(spine))
+
+datos |> summary()
 
 # Models with Poisson distribution ----------------------------------------
 

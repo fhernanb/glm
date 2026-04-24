@@ -10,12 +10,12 @@
 # Leyendo los datos -------------------------------------------------------
 
 library(readr)
-url <- 'https://raw.githubusercontent.com/fhernanb/datos/master/cleveland.csv'
+url <- "https://raw.githubusercontent.com/fhernanb/datos/master/cleveland.csv"
 datos <- read_csv(url, col_names = FALSE)
 
-colnames(datos) <- c('age', 'sex', 'cp', 'trestbps', 'chol',
-                     'fbs', 'restecg', 'thalach', 'exang', 
-                     'oldpeak', 'slope', 'ca', 'thal', 'target')
+colnames(datos) <- c("age", "sex", "cp", "trestbps", "chol",
+                     "fbs", "restecg", "thalach", "exang", 
+                     "oldpeak", "slope", "ca", "thal", "target")
 
 # Exploremos los datos
 str(datos)
@@ -47,7 +47,7 @@ datos <- datos %>% mutate(y = as.factor(y))
 datos %>% head()
 
 # Seleccion FORWARD -------------------------------------------------------
-empty_model <- glm(y ~ 1, data=datos, family=binomial(link='logit'))
+empty_model <- glm(y ~ 1, data=datos, family=binomial(link="logit"))
 
 # Vamos a crear una formula para el modelo full
 horizonte <- formula(y ~ age + sex + cp + trestbps + chol + fbs + 
@@ -59,7 +59,7 @@ mod_forw$anova
 summary(mod_forw)
 
 # Seleccion BACKWARD ------------------------------------------------------
-full_model <- glm(horizonte, data=datos, family=binomial(link='logit'))
+full_model <- glm(horizonte, data=datos, family=binomial(link="logit"))
 
 mod_back <- stepAIC(full_model, trace=TRUE, direction="backward")
 mod_back$anova
