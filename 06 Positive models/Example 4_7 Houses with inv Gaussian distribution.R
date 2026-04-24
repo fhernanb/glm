@@ -41,10 +41,10 @@ curve(var_precio(x), from=500, to=4000, lwd=3,
       xlab="Size", ylab="Var(Precio)", las=1)
 
 # Que tan bien acompanan las estimaciones los valores reales Y?
-precio_hat <- esp_precio(size=datos$size)
-cor(datos$price, precio_hat)
-plot(x=datos$price, y=precio_hat, las=1,
-     xlab="Precio obs", ylab="Precio est")
+mu_hat <- esp_precio(size=datos$size)
+cor(datos$price, mu_hat)
+plot(x=datos$price, y=mu_hat, las=1,
+     xlab="Precio observado", ylab="Media estimada (mu^)")
 abline(a=0, b=1, lty="dashed", col="blue3")
 text(x=100, y=600, expression(rho(Y, hat(Y))==0.80))
 
