@@ -4,7 +4,7 @@
 # -------------------------------------------------------------------------
 
 url <- "https://raw.githubusercontent.com/fhernanb/glm/refs/heads/master/data_Agresti_2015/Crabs.dat"
-datos <- read.table(url, header=T)
+datos <- read.table(url, header=TRUE)
 head(datos)
 
 # Un poco de estadistica descriptiva
