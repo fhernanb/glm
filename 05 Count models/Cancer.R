@@ -3,7 +3,7 @@
 # de Agresti
 # -------------------------------------------------------------------------
 
-url <- "http://users.stat.ufl.edu/~aa/glm/data/Cancer.dat"
+url <- "https://raw.githubusercontent.com/fhernanb/glm/refs/heads/master/data_Agresti_2015/Cancer.dat"
 Cancer <- read.table(url, header=TRUE)
 
 # Creando la variable logrisktime usado "dplyr"

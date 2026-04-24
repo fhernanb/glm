@@ -3,7 +3,7 @@
 # de Agresti
 # -------------------------------------------------------------------------
 
-url <- "http://users.stat.ufl.edu/~aa/glm/data/Crabs.dat"
+url <- "https://raw.githubusercontent.com/fhernanb/glm/refs/heads/master/data_Agresti_2015/Crabs.dat"
 datos <- read.table(url, header=T)
 head(datos)
 
